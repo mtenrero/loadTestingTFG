@@ -1,4 +1,17 @@
 \cleardoublepage
 \chapter{Tecnologías, Herramientas y Metodologías}
 
-Descripción de los lenguajes de programación, entornos de desarrrollo, herramientas auxiliares, librerías de terceros, sistemas operativos, navegadores web, etc... utilizados para la realización del proyecto así como la metodología empleada. El grado de profundidad a la hora de explicar cada tecnología dependerá de lo relevante que ha sido para el proyecto y lo conocida que es. Por ejemplo, si se usa el lenguaje de programación Java, no es necesario entrar en tanto detalle que si se usa un lenguaje mucho menos usado como Scala, por ejemplo. Respecto a la metodología, dada la naturaleza de los proyectos, se suele describir una metodología iterativa e incremental en espiral, en la que se van sucediendo reuniones con el profesor que van definiendo el ámbito del proyecto. Este capítulo puede tener una extensión entre 10 y 15 páginas.
+Aquí me gustaría hablar de los siguientes temas:
+
+\begin{enumerate}
+  \item \textbf{Lenguaje Golang:} Carácteristicas básicas del lenguaje, cross-platform, cobertura de test
+  \item \textbf{Git, Travis \& Jenkins:} Diferencias y features críticas que me han hecho pasar de Travis a Jenkins
+  \item \textbf{Swagger:}
+  \item \textbf{Goa Design:} Paquete Golang, Design First API, creo que es importante por el carácter de piensa antes de picar, muy similar a TDD
+  \item \textbf{AWS} Toda la CI está desplegada en AWS y tengo pensado montar un cluster Swarm aquí para una futura demo.
+  \item \textbf{Docker}
+  \item \textbf{ElasticSearch} Características básicas
+  \item \textbf{Shared Filesystem:} GlusterFS / Samba . No es Kubernetes, asi que se necesita esta configuración previa para tener todos los ficheros disponibles en todo el cluster. Explicar lo que ofrece y por qué es necesario.
+  \item \textbf{Redes:} Concretamente DNS y algoritmo DNS Round Robin. Es la piedra angular en cuanto a orquestación con arquitectura Master / Workers se refiere
+  \item \textbf{Apache Jmeter:} Forma de ejecución distribuida y arquitectura
+\end{enumerate}
