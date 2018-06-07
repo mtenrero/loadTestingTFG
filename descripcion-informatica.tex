@@ -31,7 +31,34 @@ Docker Swarm Architecture + GlusterFS
   \item Implementación algoritmo Descubrimiento de contenedores DNSRR
 \end{itemize}
 
+\section{Integración Continua}
+\label{sec:integracion-continua}
 
+Inicialmente, el proyecto, al estar alojado en el servicio de control de versiones de GitHub, en un repositorio de código abierto, se ofrecían diversas opciones SAAS de Integración Continua, entre ellas TravisCI o CircleCI.
+
+
+Al comenzar el desarrollo, las características que ofrecía TravisCI encajaban perfectamente con los requisitos de Automation Test Queue:
+
+\begin{itemize}
+  \item Pipeline-as-code
+  \item Enfocado a Contenedores
+  \item Integración con GitHub
+\end{itemize}
+
+Se utilizó durante la mitad de desarrollo del proyecto y ofreció muy buenos resultados. Pero llegó un momento en el que era necesario que el host donde se ejecutaban los tests cada vez que realizaba un commit formase parte de un cluster de Docker Swarm, y esto no se podía conseguir con la solución que ofrecía TravisCI.\newline
+
+La limitación de TravisCI era muy importante ya que rompía la línea de Integración Continua, por lo que no quedó mas remedio que optar por una solución mas configurable, Jenkins.
+
+No se optó desde un principio por Jenkins debido a la necesidad de disponer de una máquina con acceso a la red las 24 horas al día y la configuración del mismo.\newline
+
+El despliegue de las máquinas destinadas a la línea de integración continua se realizó sobre máquinas EC2 de Amazon Web Services, todas ellas bajo el mismo grupo de disponibilidad y con un servicio de IP elástica, permitiendo de esta manera que la dirección de acceso a Jenkins fuese estática. Además se incluyó un registro A en el DNS de mi dominio particular para poder acceder con una dirección\footnote{http://atq.mtenrero.com:8080} mas fácil de recordar aún.
+
+Una parte vital para el correcto funcionamiento de la línea de integración continua fue configurar webhooks en GitHub para apuntar a la instancia de Jenkins además de habilitar la integración propia de Jenkins. Esto permitió que con cada evento en el repositorio, como \textit{commits} o \textit{pull-requests} se enviase una notificación a Jenkins para así poder ejecutar el job especificado y lanzar los tests unitarios sobre todas las ramas del proyecto para asegurar la regresión y un buen funcionamiento del mismo.\newline
+
+
+Hace apenas dos años, Cloudbees, la organización que es oficialmente responsable del desarrollo de Jenkins, lanzó una característica que llamaron \textit{Jenkins Declarative Pipelines} \footnote{https://jenkins.io/blog/2017/02/03/declarative-pipeline-ga/}. Estos pipelines, permiten escribir, de una forma desriptiva, las tareas y procesos a realizar cada vez que el job es ejecutado. 
+
+Esto ha permitido describir el workflow de ejecución de manera totalmente agnóstica y compatible con cualquier Jenkins desplegado, siempre que tenga Docker instalado, ya que hace uso del denominado Docker-in-Docker, que permite utilizar el demonio de Docker del host dentro de un contenedor ya existente.
 
 
 \section{Pruebas}

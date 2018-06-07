@@ -31,6 +31,8 @@
 \usepackage{graphicx}
 \usepackage{float}  %% H para posicionar figuras
 \usepackage[nottoc, notlot, notlof, notindex]{tocbibind} %% Opciones de índice
+\usepackage{listings} %% Bloques de código
+\usepackage{color} %% Paquete de color para listings
 
 \title{Memoria del Proyecto}
 \author{Marcos Tenrero Morán}
@@ -251,6 +253,77 @@ mi familia / mi abuelo / mi abuela}
 \appendix
 \chapter{Manual de usuario}
 \label{app:manual}
+
+\appendixname{b}
+\chapter{Fragmentos de código}
+\label{code-snippets}
+
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.5,0}
+\definecolor{pred}{rgb}{0.9,0,0}
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+
+\lstset{language=Java,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  basicstyle=\small,
+  moredelim=[il][\textcolor{pgrey}]{$$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%}
+}
+
+\begin{lstlisting}[language=Java, caption=Jenkisfile CI Docker-in-Docker]
+pipeline {
+
+    agent {
+        docker {
+            image 'tenrero/golang-dep-alpine:1.10.2'
+            reuseNode true
+            args '-it -v /var/run/docker.sock:/var/run/docker.sock -v $WORKSPACE:/tmp/app'
+        }
+    }
+
+    stages {        
+        stage('Prepare Environment') {
+            steps {
+                sh 'echo $GOPATH'
+                sh 'mkdir -p /go/src/github.com/mtenrero/'
+                sh 'ln -s /tmp/app /go/src/github.com/mtenrero/ATQ-Director'
+                sh 'ls -a /go/src/github.com/mtenrero/ATQ-Director'
+                sh 'go get -u github.com/golang/dep/cmd/dep'
+                sh 'go get -u github.com/golang/lint/golint'
+                sh 'go get -u github.com/tebeka/go2xunit'
+                sh 'go get -u golang.org/x/tools/cmd/cover'
+                sh 'go get -u github.com/mattn/goveralls'
+            }
+        }
+
+        stage('Download Vendor') {
+            steps {
+                sh 'cd /go/src/github.com/mtenrero/ATQ-Director && dep ensure'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'cd /go/src/github.com/mtenrero/ATQ-Director && go test ./... -race -coverprofile=coverage.txt -covermode=atomic'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'cd /go/src/github.com/mtenrero/ATQ-Director && ./build.sh'
+            }
+        }
+    }
+    
+}
+\end{lstlisting}
 
 
 \end{document}
