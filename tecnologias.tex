@@ -18,12 +18,18 @@ Aquí me gustaría hablar de los siguientes temas:
   \item \textbf{Apache Jmeter:} Forma de ejecución distribuida y arquitectura
 \end{enumerate}
 
+\section{Golang}
+
+Go es un lenguaje de programación que se comenzó a desarrollar en 2007 y nació con el ideal de eliminar todos los obstáculos de la programación actual, ya que desde hace varios años no había salido ningún lenguaje de programación de alta importancia.
+
 \section{DNS}
 
 Domain Name System es un sistema de nombrado de redes IP que se utiliza para resolver nombres en direcciones IP. El servicio de resolución de nombres puede tener diferentes tipos de registros. En la investigación del trabajo sólo se han usado registros de tipo \textbf{A}, los cuales traducen un nombre en una o varias direcciones IP, dependiendo de los registros A que tenga almacenados para un mismo nombre de dominio/subdominio.
 
-\subsection{DNS Round-Robin}
+\subsection{Networking: DNS Round-Robin}
 
-Round-Robin es un algoritmo de selección de IP, en el que cada petición que realiza el usuario, obtiene una lista completa de todas las direcciones IP registradas en el servidor de nombres ordenada de tal forma que nunca recibe la misma IP, realizando, de esta manera, labores de balanceador de carga.
+DNS Round-Robin es un algoritmo de selección de IP, en el que con cada petición que realiza el usuario, se obtiene una lista completa de todas las direcciones IP registradas en el servidor de nombres ordenada de tal forma que nunca recibe la misma IP, realizando, de esta manera, labores de balanceador de carga.
 
-Docker implementa este algoritmo de forma alternativa en su DNS interno, y el desarrollador puede elegir si...
+Docker implementa este algoritmo de forma alternativa en su DNS interno, y el desarrollador puede elegir si desea operar con DNS Round Robin o con \textit{Routing Mesh}, balanceo de carga interno, donde el nombre es resuelto con una única IP Virtual de manera no determinista.\newline
+
+Cuando se opta por usar el modo DNS Round-Robin, por limitaciones de diseño, resulta imposible exponer puertos hacia el host, únicamente se permiten conexiones de red con las redes indicadas por el servicio. 
