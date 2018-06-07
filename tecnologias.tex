@@ -3,6 +3,8 @@
 
 Aquí me gustaría hablar de los siguientes temas:
 
+
+
 \begin{enumerate}
   \item \textbf{Lenguaje Golang:} Carácteristicas básicas del lenguaje, cross-platform, cobertura de test
   \item \textbf{Git, Travis \& Jenkins:} Diferencias y features críticas que me han hecho pasar de Travis a Jenkins
@@ -15,3 +17,13 @@ Aquí me gustaría hablar de los siguientes temas:
   \item \textbf{Redes:} Concretamente DNS y algoritmo DNS Round Robin. Es la piedra angular en cuanto a orquestación con arquitectura Master / Workers se refiere
   \item \textbf{Apache Jmeter:} Forma de ejecución distribuida y arquitectura
 \end{enumerate}
+
+\section{DNS}
+
+Domain Name System es un sistema de nombrado de redes IP que se utiliza para resolver nombres en direcciones IP. El servicio de resolución de nombres puede tener diferentes tipos de registros. En la investigación del trabajo sólo se han usado registros de tipo \textbf{A}, los cuales traducen un nombre en una o varias direcciones IP, dependiendo de los registros A que tenga almacenados para un mismo nombre de dominio/subdominio.
+
+\subsection{DNS Round-Robin}
+
+Round-Robin es un algoritmo de selección de IP, en el que cada petición que realiza el usuario, obtiene una lista completa de todas las direcciones IP registradas en el servidor de nombres ordenada de tal forma que nunca recibe la misma IP, realizando, de esta manera, labores de balanceador de carga.
+
+Docker implementa este algoritmo de forma alternativa en su DNS interno, y el desarrollador puede elegir si...
