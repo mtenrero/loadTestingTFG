@@ -55,3 +55,37 @@ DNS Round-Robin es un algoritmo de selección de IP, en el que con cada petición 
 Docker implementa este algoritmo de forma alternativa en su DNS interno, y el desarrollador puede elegir si desea operar con DNS Round Robin o con \textit{Routing Mesh}, balanceo de carga interno, donde el nombre es resuelto con una única IP Virtual de manera no determinista.\newline
 
 Cuando se opta por usar el modo DNS Round-Robin, por limitaciones de diseño, resulta imposible exponer puertos hacia el host, únicamente se permiten conexiones de red con las redes indicadas por el servicio. 
+
+\section{Contenedores}
+
+Los contenedores son un nuevo tipo de virtualización ligera de Sistemas Operativos que no requieren la emulación de instrucciones en el procesador, reduciendo así el consumo de recursos sin prescindir del aislamiento necesario presente en la virtualización tradicional \cite{containerVsHyper}.
+
+\subsection{LXC: Linux Containers}
+
+LXC 
+
+\subsection{Docker}
+
+Docker añade una capa para gestionar las redes de los contenedores dotándolos de una IP propia y el sistema de ficheros a LXC. Permite especificar imágenes de contenedores autocontenidas y gestionar un ciclo de vida sobre éstos. 
+\cite{containerVsHyper}\newline
+
+Docker ofrece además un repositorio o registro donde almacenar estas imágenes de los contenedores para que estén disponibles para su uso
+\cite{Merkel:2014:DLL:2600239.2600241}
+de manera pública a través de DockerHub\footnote{https://hub.docker.com}, o de manera privada con un registro desplegado a demanda.
+
+Docker usa una terminología propia:
+
+\begin{itemize}
+  \item \textbf{Imagen:} Descripción de los contenidos de un contenedor, interoperable entre todo el ecosistema Docker.
+  \item \textbf{Contenedor:} Es la unidad mínima en Docker, corresponde a una imagen ejecutada sobre una máquina o Swarm.
+  \item \textbf{Volumen:} Unidad de almacenamiento persistente en Docker, pueden ser bindados a un directorio o fichero del sistema de ficheros del host o en el propio contexto de Docker.
+  \item \textbf{Servicio:} Encapsulación de una imagen que se puede configurar de manera concreta. Permitiendo configurar la cantidad de replicas a desplegar, el tipo de red o los volúmenes con los que trabajar.
+  \item \textbf{Red:} Red dentro del ecosistema Docker, se encarga de interconectar Servicios y/o Contenedores
+\end{itemize}
+
+
+\subsubsection{Docker Swarm}
+
+Docker Swarm es un modo de funcionamiento de Docker que permite utilizar diversas máquinas para formar un clúster de Docker en el que desplegar contenedores, donde el demonio de Docker gestiona la red, el sistema de ficheros y la comunicación entre servicios.\newline
+
+Para desplegar diversos Servicios en un Swarm, Docker introduce el concepto de \textbf{Stack}, una agrupación de Servicios con su configuración de red particular. 
