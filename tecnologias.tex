@@ -34,11 +34,21 @@ Uno de los puntos fuertes de Go, es la gestión de dependencias durante la compil
 
 Dep nace como un experimento de Golang\footnote{https://github.com/golang/dep} , preparada para usar en producción, aunque sin llegar a ser la herramienta oficial de gestión de dependencias a nivel de proyecto/usuario. Emplea un fichero TOML en la raiz del proyecto, en él se indica la dependencia requerida, su versión e incluso la rama del control de versiones desde la cual obtener los paquetes. \newline
 
+\section{Goa Design: Design-first Network framework}
+
+Goa\footnote{https://goa.design} es un framework completo para construir microservicios en Go que invierte la forma de construir APIs web completamente. Posee generación automática de código y documentación. \newline
+
+Es un framework enfocado al diseño de la API en primer lugar, y es lo que hace a este framework único. Posee su propio lenguaje DSL (lenguaje descriptivo) en el que antes de codificar, obliga al programador a pensar en el diseño de la API, ya que esta debe ser definida en un primer lugar. Permite definir desde el endpoint, el contenido que consumirá y los parámetros que recibirá.
+
+\section{OpenAPI Specification}
+
+OpenAPI es una especificación mantenida e ideada por la comunidad Open-Source en la plataforma GitHub\footnote{https://github.com/OAI/OpenAPI-Specification}, independiente de cualquier lenguaje de programación, que permite definir cualquier tipo con toda la especificación completa de una API, para que sea comprensible, tanto para personas como para ordenadores, ya que se basa en ficheros JSON y YAML.
+
 \section{DNS}
 
 Domain Name System es un sistema de nombrado de redes IP que se utiliza para resolver nombres en direcciones IP. El servicio de resolución de nombres puede tener diferentes tipos de registros. En la investigación del trabajo sólo se han usado registros de tipo \textbf{A}, los cuales traducen un nombre en una o varias direcciones IP, dependiendo de los registros A que tenga almacenados para un mismo nombre de dominio/subdominio.
 
-\subsection{Networking: DNS Round-Robin}
+\subsection{DNS Round-Robin}
 
 DNS Round-Robin es un algoritmo de selección de IP, en el que con cada petición que realiza el usuario, se obtiene una lista completa de todas las direcciones IP registradas en el servidor de nombres ordenada de tal forma que nunca recibe la misma IP, realizando, de esta manera, labores de balanceador de carga.
 
