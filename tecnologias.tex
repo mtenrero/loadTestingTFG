@@ -20,7 +20,19 @@ Aquí me gustaría hablar de los siguientes temas:
 
 \section{Golang}
 
-Go es un lenguaje de programación que se comenzó a desarrollar en 2007 y nació con el ideal de eliminar todos los obstáculos de la programación actual, ya que desde hace varios años no había salido ningún lenguaje de programación de alta importancia.
+Go es un lenguaje de programación que se comenzó a desarrollar en 2007 \cite{Pike:2012:GG:2384716.2384720} y nació con el ideal de eliminar todos los obstáculos de la programación actual \cite{donovan2015go}, ya que desde hace varios años no había salido ningún lenguaje de programación de alta importancia. Se necesitaba que estuviese diseñado por completo, teniendo en cuenta factores de la informática actual, como la concurrencia o la rapidez en la compilación y en la codificación.
+
+Los orígenes de Go se remontan a los lenguajes Oberon 2 , C y Alef \cite{donovan2015go}. Nace como un proyecto de Google como solución para la codificación de soluciones complejas.
+
+Como particular característica \cite{pike2009go}, Go es un lenguaje de programación con recolector de basura, para permitir así trabajar de una forma correcta con la concurrencia de las aplicaciones. \newline
+
+ El compilador de Go se ideó de tal forma para que fuese compatible nativamente con todos los Sistemas Operativos, introduciendo el cross-compile (Compilación para otras plataformas o arquitecturas en un único Sistema Operativo) como uno de sus puntos fuertes.
+ 
+\section{Dep: Go Dependency Management}
+
+Uno de los puntos fuertes de Go, es la gestión de dependencias durante la compilación \cite{pike2009go}. Sin embargo, de cara al desarrollador, por defecto, carece de un fichero a nivel global de proyecto para poder definir las dependencias del mismo y/o la versión con la que se desea trabajar, sino que se debe especificar a través de sentencias \textit{import} en los ficheros \textit{.go} del código. Además, para poder usar esas dependencias, es necesario que estén presentes en el \$GOPATH del sistema.\newline
+
+Dep nace como un experimento de Golang\footnote{https://github.com/golang/dep} , preparada para usar en producción, aunque sin llegar a ser la herramienta oficial de gestión de dependencias a nivel de proyecto/usuario. Emplea un fichero TOML en la raiz del proyecto, en él se indica la dependencia requerida, su versión e incluso la rama del control de versiones desde la cual obtener los paquetes. \newline
 
 \section{DNS}
 
