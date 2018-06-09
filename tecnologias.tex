@@ -7,13 +7,13 @@ Aquí me gustaría hablar de los siguientes temas:
 
 \begin{enumerate}
   \item \st{\textbf{Lenguaje Golang:} Carácteristicas básicas del lenguaje, cross-platform, cobertura de test}
-  \item \textbf{Git, Travis \& Jenkins:} Diferencias y features críticas que me han hecho pasar de Travis a Jenkins
+  \item \st{\textbf{Git, Travis \& Jenkins:} Diferencias y features críticas que me han hecho pasar de Travis a Jenkins}
   \item \st{\textbf{OpenAPI}}
   \item \st{\textbf{Goa Design:} Paquete Golang, Design First API, creo que es importante por el carácter de piensa antes de picar, muy similar a TDD}
   \item \textbf{AWS} Toda la CI está desplegada en AWS y tengo pensado montar un cluster Swarm aquí para una futura demo.
   \item \st{\textbf{Docker}}
   \item \st{\textbf{ElasticSearch} Características básicas}
-  \item \textbf{Shared Filesystem:} GlusterFS / Samba . No es Kubernetes, asi que se necesita esta configuración previa para tener todos los ficheros disponibles en todo el cluster. Explicar lo que ofrece y por qué es necesario.
+  \item \st{\textbf{Shared Filesystem:} GlusterFS / Samba . No es Kubernetes, asi que se necesita esta configuración previa para tener todos los ficheros disponibles en todo el cluster. Explicar lo que ofrece y por qué es necesario.}
   \item \st{\textbf{Redes:} Concretamente DNS y algoritmo DNS Round Robin. Es la piedra angular en cuanto a orquestación con arquitectura Master / Workers se refiere}
   \item \st{\textbf{Apache Jmeter:} Forma de ejecución distribuida y arquitectura}
 \end{enumerate}
@@ -134,3 +134,17 @@ Samba es el protocolo open source por defecto de Windows que comparte directorio
 
 GlusterFS\footnote{http://gluster.org} es un sistema de ficheros distribuido open source a través de la red que puede replicar los contenidos entre los nodos que lo tengan configurado. Las características principales de Gluster son las comunes a cualquier sistema distribuido, tolerancia a fallos y alta escalabilidad \cite{glusterOpenStackDeployment}.
 
+\section{Sistemas de Integración Continua}
+
+Un Sistema de Integración Continua, permite ejecutar con cada commit. sobre el Control de Versiones, ejecutar una serie de programas definidos en un pipeline, como puede ser la ejecución de tests unitarios para asegurarase de la regresión de la aplicación, es decir, que no se ha roto ninguna funcionalidad previo con los nuevos cambios introducidos. \newline
+
+\subsection{TravisCI}
+
+TravisCI\footnote{https://travis-ci.com} es un servicio de Integración Continua ofrecido de manera gratuita para proyectos open-source de GitHub. Está preconfigurado para usarse de manera sencilla para una gran cantidad de lenguajes de programación así como para despliegues en servicios PAAS como es el caso de Heroku\footnote{https://www.heroku.com}. 
+Usa ficheros YAML para su configuración y todos los comandos y procesos indicados en los ficheros de configuración se ejecutan sobre contenedores completamente aislados. Ofrecen Docker-In-Docker de manera limitada, únicamante para construir imágenes y publicarlas en un registro.
+
+\subsection{Jenkins}
+
+Jenkins es una aplicación open-source desarrollada en Java enfocada a Integración Continua y Despliegue Continuo (CI/CD), al igual que TravisCI. Es completamente configurable y versátil, aunque requiere una instalación y configuración previa. Además, aporta la flexibilidad de poder instalar o desarrollar plugins de terceros.\newline 
+
+Permite configurar los pipelines de ejecución mediante una interfaz visual y de manera declarativa o procedural a través de código en el propio repositorio.
