@@ -1,22 +1,5 @@
 \cleardoublepage
-\chapter{Tecnologías, Herramientas y Metodologías}
-
-Aquí me gustaría hablar de los siguientes temas:
-
-
-
-\begin{enumerate}
-  \item \st{\textbf{Lenguaje Golang:} Carácteristicas básicas del lenguaje, cross-platform, cobertura de test}
-  \item \st{\textbf{Git, Travis \& Jenkins:} Diferencias y features críticas que me han hecho pasar de Travis a Jenkins}
-  \item \st{\textbf{OpenAPI}}
-  \item \st{\textbf{Goa Design:} Paquete Golang, Design First API, creo que es importante por el carácter de piensa antes de picar, muy similar a TDD}
-  \item \textbf{AWS} Toda la CI está desplegada en AWS y tengo pensado montar un cluster Swarm aquí para una futura demo.
-  \item \st{\textbf{Docker}}
-  \item \st{\textbf{ElasticSearch} Características básicas}
-  \item \st{\textbf{Shared Filesystem:} GlusterFS / Samba . No es Kubernetes, asi que se necesita esta configuración previa para tener todos los ficheros disponibles en todo el cluster. Explicar lo que ofrece y por qué es necesario.}
-  \item \st{\textbf{Redes:} Concretamente DNS y algoritmo DNS Round Robin. Es la piedra angular en cuanto a orquestación con arquitectura Master / Workers se refiere}
-  \item \st{\textbf{Apache Jmeter:} Forma de ejecución distribuida y arquitectura}
-\end{enumerate}
+\chapter{Tecnologías y Herramientas}
 
 \section{Golang}
 
@@ -133,6 +116,18 @@ Samba es el protocolo open source por defecto de Windows que comparte directorio
 \subsection{GlusterFS}
 
 GlusterFS\footnote{http://gluster.org} es un sistema de ficheros distribuido open source a través de la red que puede replicar los contenidos entre los nodos que lo tengan configurado. Las características principales de Gluster son las comunes a cualquier sistema distribuido, tolerancia a fallos y alta escalabilidad \cite{glusterOpenStackDeployment}.
+
+\section{AWS: Amazon Web Services}
+
+Amazon Web Services es una solución Platform-as-a-Service (PAAS) que ofrece diversos productos, entre ellos:
+
+\begin{itemize}
+  \item \textbf{EC2:} Recursos de cómputo bajo demanda. Permitiendo desplegar máquinas virtuales en pocos minutos con la imagen de sistema deseada, ya sea Windows o Linux.
+  \item \textbf{ElasticIP:} IP pública bajo demanda
+\end{itemize}
+
+
+Se caracteriza por ofrecer un modelo de pago por uso y por la capacidad de interconexión entre sus servicios.
 
 \section{Sistemas de Integración Continua}
 
