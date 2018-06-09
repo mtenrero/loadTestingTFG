@@ -6,16 +6,16 @@ Aquí me gustaría hablar de los siguientes temas:
 
 
 \begin{enumerate}
-  \item \textbf{Lenguaje Golang:} Carácteristicas básicas del lenguaje, cross-platform, cobertura de test
+  \item \st{\textbf{Lenguaje Golang:} Carácteristicas básicas del lenguaje, cross-platform, cobertura de test}
   \item \textbf{Git, Travis \& Jenkins:} Diferencias y features críticas que me han hecho pasar de Travis a Jenkins
-  \item \textbf{Swagger:}
-  \item \textbf{Goa Design:} Paquete Golang, Design First API, creo que es importante por el carácter de piensa antes de picar, muy similar a TDD
+  \item \st{\textbf{OpenAPI}}
+  \item \st{\textbf{Goa Design:} Paquete Golang, Design First API, creo que es importante por el carácter de piensa antes de picar, muy similar a TDD}
   \item \textbf{AWS} Toda la CI está desplegada en AWS y tengo pensado montar un cluster Swarm aquí para una futura demo.
-  \item \textbf{Docker}
-  \item \textbf{ElasticSearch} Características básicas
+  \item \st{\textbf{Docker}}
+  \item \st{\textbf{ElasticSearch} Características básicas}
   \item \textbf{Shared Filesystem:} GlusterFS / Samba . No es Kubernetes, asi que se necesita esta configuración previa para tener todos los ficheros disponibles en todo el cluster. Explicar lo que ofrece y por qué es necesario.
-  \item \textbf{Redes:} Concretamente DNS y algoritmo DNS Round Robin. Es la piedra angular en cuanto a orquestación con arquitectura Master / Workers se refiere
-  \item \textbf{Apache Jmeter:} Forma de ejecución distribuida y arquitectura
+  \item \st{\textbf{Redes:} Concretamente DNS y algoritmo DNS Round Robin. Es la piedra angular en cuanto a orquestación con arquitectura Master / Workers se refiere}
+  \item \st{\textbf{Apache Jmeter:} Forma de ejecución distribuida y arquitectura}
 \end{enumerate}
 
 \section{Golang}
@@ -100,3 +100,24 @@ Los nodos de Docker Swarm pueden tener dos roles:
   \item \textbf{Manager:} Gestionan el clúster, como mínimo, debe haber 3 Managers para que se puede aplicar Raft-Consensus. Tienen una visión completa del cluster. A su vez, uno de ellos se elegirá como \textbf{Líder}, el cual será responsable de la gestión del clúster. 
   \item \textbf{Worker:} Son nodos en los cuales sólo se despliegan contenedores o servicios, sólo tienen visión de los contenedores o servicios que están desplegados en el propio nodo.
 \end{itemize}
+
+
+\section{Apache JMeter}
+
+Apache JMeter es un software de código abierto desarrollado en Java con el objetivo de realizar test de rendimiento automáticos.
+Tiene una baja curva de aprendizaje y permite ejecutar las pruebas de manera distribuida y una API pública lo que permite extender el funcionamiento de la herramienta a demanda. 
+
+
+Está dotado de interfaz de usuario gráfica desde la cual se pueden diseñar y ejecutar tests, pero también ofrece una versión de ejecución por línea de comandos que permite automatizar completamente el lanzamiento de las pruebas.
+
+
+\subsubsection{Ejecución distribuida}
+
+JMeter se desarrolló pensando en un esquema de ejecución distribuida \textbf{Maestro} / \textbf{Esclavos}. Los esclavos deben estar accesibles antes de la ejecución del test a través del nodo maestro.\newline
+
+El lanzamiento del nodo Maestro requiere que se especique la lista de los nodos remotos que utilizar para lanzar el test de rendimiento.
+
+
+\section{ElasticSearch}
+
+ElasticSearch forma parte del Stack ELK (\textit{ElasticSearch}, \textit{Logstash}, \textit{Kibana}) y es una base de datos y motor de búsqueda distribuido y enfocado a la alta disponibilidad. Está desarrollado en Java bajo una licencia open source y basado en Lucene \cite{divya2013elasticsearch}, una libreria open source de búsqueda de texto completo.
