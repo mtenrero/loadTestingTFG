@@ -62,12 +62,12 @@ Los contenedores son un nuevo tipo de virtualización ligera de Sistemas Operativ
 
 \subsection{LXC: Linux Containers}
 
-LXC 
+LXC es un tipo de virtualización basada en contenedores, usa el espacio de nombres de kernel y cgroups para asegurar el aislamiento de los contenedores, aunque los contenedores comparten el kernel con el Sistema Operativo del host \cite{ContainersComparison}.
 
 \subsection{Docker}
 
-Docker añade una capa para gestionar las redes de los contenedores dotándolos de una IP propia y el sistema de ficheros a LXC. Permite especificar imágenes de contenedores autocontenidas y gestionar un ciclo de vida sobre éstos. 
-\cite{containerVsHyper}\newline
+Docker añade una capa para gestionar las redes de los contenedores dotándolos de una IP propia y el sistema de ficheros a LXC. Permite especificar imágenes de contenedores autocontenidas y gestionar el ciclo de vida de ellos. 
+\cite{containerVsHyper} \cite{fromLXCtoKubernetes}. Introduce un modelo cliente-servidor, siendo el demonio de Docker en el host el responsable de la comunicación con los contenedores \cite{ContainersComparison} \newline 
 
 Docker ofrece además un repositorio o registro donde almacenar estas imágenes de los contenedores para que estén disponibles para su uso
 \cite{Merkel:2014:DLL:2600239.2600241}
@@ -84,8 +84,19 @@ Docker usa una terminología propia:
 \end{itemize}
 
 
+\subsubsection{Raft Consensus}
+
+Es un algoritmo para asegurar tolerancia a fallos. Para su correcto funcionamiento, se tiene que establecer un \textit{Quorum}, un conjunto de nodos elegidos para administración. El tamaño del \textit{Quorum} se define por la siguiente ecuación \( 2f + 1 \), siendo \( f \) la cantidad de fallos a tolerar. Por lo tanto, para formar \textit{Quroum}, serán necesarios un mínimo de 3 nodos \cite{Raft-UCAM-CL-TR-857} .
+
 \subsubsection{Docker Swarm}
 
 Docker Swarm es un modo de funcionamiento de Docker que permite utilizar diversas máquinas para formar un clúster de Docker en el que desplegar contenedores, donde el demonio de Docker gestiona la red, el sistema de ficheros y la comunicación entre servicios.\newline
 
-Para desplegar diversos Servicios en un Swarm, Docker introduce el concepto de \textbf{Stack}, una agrupación de Servicios con su configuración de red particular. 
+Para desplegar diversos Servicios en un Swarm, Docker introduce el concepto de \textbf{Stack}, una agrupación de Servicios con su configuración de red particular.\newline 
+
+Los nodos de Docker Swarm pueden tener dos roles:
+
+\begin{itemize}
+  \item \textbf{Manager:} Gestionan el clúster, como mínimo, debe haber 3 Managers para que se puede aplicar Raft-Consensus. Tienen una visión completa del cluster. A su vez, uno de ellos se elegirá como \textbf{Líder}, el cual será responsable de la gestión del clúster. 
+  \item \textbf{Worker:} Son nodos en los cuales sólo se despliegan contenedores o servicios, sólo tienen visión de los contenedores o servicios que están desplegados en el propio nodo.
+\end{itemize}
