@@ -121,3 +121,16 @@ El lanzamiento del nodo Maestro requiere que se especique la lista de los nodos 
 \section{ElasticSearch}
 
 ElasticSearch forma parte del Stack ELK (\textit{ElasticSearch}, \textit{Logstash}, \textit{Kibana}) y es una base de datos y motor de búsqueda distribuido y enfocado a la alta disponibilidad. Está desarrollado en Java bajo una licencia open source y basado en Lucene \cite{divya2013elasticsearch}, una libreria open source de búsqueda de texto completo.
+
+\section{Sistema de ficheros distribuido}
+
+Un sistema de ficheros distribuido permite acceder a unos directorios o ficheros determinados desde diversos ordenadores. Cada Sistema Operativo implementa su propio protocolo de ficheros distribuidos. El sistema Operativo Windows utiliza Samba.
+
+\subsection{Samba}
+
+Samba es el protocolo open source por defecto de Windows que comparte directorios e impresoras como estándar. Su carácter open source permite que sea posible acceder a recursos compartidos Windows desde otros Sistemas Operativos\cite{5076771}. 
+
+\subsection{GlusterFS}
+
+GlusterFS\footnote{http://gluster.org} es un sistema de ficheros distribuido open source a través de la red que puede replicar los contenidos entre los nodos que lo tengan configurado. Las características principales de Gluster son las comunes a cualquier sistema distribuido, tolerancia a fallos y alta escalabilidad \cite{glusterOpenStackDeployment}.
+
