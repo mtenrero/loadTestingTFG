@@ -20,11 +20,18 @@ Así se mostró en el tablero Kanban del proyecto, proporcionado por GitHub para e
 \section{Arquitectura y Análisis}
 \label{sec:arquitectura-analisis}
 
-Se plantearon dos tipos de arquitectura inicialmente, la primera de todas...
 
 Golang fue el lenguaje de programación elegido debido a su alta simplicidad en cuanto a concurrencia se refiere, por permitir ser compilado y generar binarios para los mayores Sistemas Operativos y debido a la existencia de un paquete distribuido por Docker para comunicarse directamente con la API que ofrece el demonio de Docker.
 
+La mayor complejidad presente en este proyecto ha sido obtener las direcciones virtuales de cada contenedor desplegado sobre el cluster Swarm, ya que son necesarias para poder comunicarse con las instancias directamente. Docker, por defecto, cuando crea una red entre servicios, se puede invocar directamente al nombre del servicio para acceder a él, pero en el caso de que se despligue el servicio en modo replicado y éste haya sido configurado para tener más de una replica, por defecto, Docker actúa como un balanceador de carga y sólo responde con una única dirección IP correspondiente a un único contenedor. Esto ha sido un duro handicap, ya que se requería conocer todas las direcciones de los contenedores desplegados.\newline
 
+
+Se plantearon dos tipos de arquitectura inicialmente, la primera de todas...
+
+
+\subsection{Primer enfoque: Maestros / agentes}
+
+E
 
 \section{Diseño e Implementación}
 \label{sec:diseno-implementacion}
