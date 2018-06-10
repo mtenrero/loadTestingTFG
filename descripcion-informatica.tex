@@ -5,20 +5,26 @@
 \section{Requisitos}
 \label{sec:requisitos}
 
-Descripción más detallada de los objetivos explicados en el capítulo de Objetivos
+Tras un análisis del proyecto a desarrollar se llegó a la conclusión de que había que seguir un enfoque top-down, o de arriba hacia abajo. Era necesario que durante toda la etapa del desarrollo, se tuviese muy claro a dónde se pretendía llegar. Siendo los objetivos principales los siguientes:
 
-Tareas tablero Kanban del Project de GitHub
+\begin{itemize}
+  \item Capacidad de desplegar los servicios Docker necesarios para una tarea específica
+  \item Networking automático y transparente
+  \item Interfaz sencilla para el usuario
+  \item Integración completa con Apache JMeter
+\end{itemize}
+
+Así se mostró en el tablero Kanban del proyecto, proporcionado por GitHub para el repositorio concreto\footnote{https://github.com/mtenrero/ATQ-Director}.
+
 
 \section{Arquitectura y Análisis}
 \label{sec:arquitectura-analisis}
 
-Como el "orquestador" se ha centrado en el formato de despliegue Master/Workers, explicación de la forma de ejecución de JMeter en detalle
+Se plantearon dos tipos de arquitectura inicialmente, la primera de todas...
 
-Explicación de la investigación hasta que di con la forma de orquestar los servicios de manera satisfactoria para nuestro objetivo siguiendo los requisitos de JMeter.
+Golang fue el lenguaje de programación elegido debido a su alta simplicidad en cuanto a concurrencia se refiere, por permitir ser compilado y generar binarios para los mayores Sistemas Operativos y debido a la existencia de un paquete distribuido por Docker para comunicarse directamente con la API que ofrece el demonio de Docker.
 
-Arquitectura inicial, con algún boceto de arquitectura.
 
-Docker Swarm Architecture + GlusterFS
 
 \section{Diseño e Implementación}
 \label{sec:diseno-implementacion}
@@ -56,7 +62,7 @@ El despliegue de las máquinas destinadas a la línea de integración continua se r
 Una parte vital para el correcto funcionamiento de la línea de integración continua fue configurar webhooks en GitHub para apuntar a la instancia de Jenkins además de habilitar la integración propia de Jenkins. Esto permitió que con cada evento en el repositorio, como \textit{commits} o \textit{pull-requests} se enviase una notificación a Jenkins para así poder ejecutar el job especificado y lanzar los tests unitarios sobre todas las ramas del proyecto para asegurar la regresión y un buen funcionamiento del mismo.\newline
 
 
-Hace apenas dos años, Cloudbees, la organización que es oficialmente responsable del desarrollo de Jenkins, lanzó una característica que llamaron \textit{Jenkins Declarative Pipelines} \footnote{https://jenkins.io/blog/2017/02/03/declarative-pipeline-ga/}. Estos pipelines, permiten escribir, de una forma desriptiva, las tareas y procesos a realizar cada vez que el job es ejecutado. 
+Hace apenas dos años, Cloudbees, la organización que es oficialmente responsable del desarrollo de Jenkins, lanzó una característica que llamaron \textit{Jenkins Declarative Pipelines} \footnote{https://jenkins.io/blog/2017/02/03/declarative-pipeline-ga/}. Estos pipelines, permiten escribir, de una forma desriptiva, las tareas y procesos a realizar cada vez que el job es ejecutado.
 
 Esto ha permitido describir el workflow de ejecución de manera totalmente agnóstica y compatible con cualquier Jenkins desplegado, siempre que tenga Docker instalado, ya que hace uso del denominado Docker-in-Docker, que permite utilizar el demonio de Docker del host dentro de un contenedor ya existente.
 
@@ -64,7 +70,7 @@ Esto ha permitido describir el workflow de ejecución de manera totalmente agnóst
 \section{Pruebas}
 \label{sec:pruebas}
 
-Hablar de Cobertura de Test, como se ha organizado por paquetes, cómo está integrado con el Pipeline de IC de Jenkins, los triggers que tiene configurado... 
+Hablar de Cobertura de Test, como se ha organizado por paquetes, cómo está integrado con el Pipeline de IC de Jenkins, los triggers que tiene configurado...
 \newline
 
 Explicar cómo se diseñaron primero los tests básicos, luego la implementación, y después se amplió la cobertura de tests
