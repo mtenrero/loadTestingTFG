@@ -23,26 +23,62 @@ Así se mostró en el tablero Kanban del proyecto, proporcionado por GitHub para e
 
 Golang fue el lenguaje de programación elegido debido a su alta simplicidad en cuanto a concurrencia se refiere, por permitir ser compilado y generar binarios para los mayores Sistemas Operativos y debido a la existencia de un paquete distribuido por Docker para comunicarse directamente con la API que ofrece el demonio de Docker.
 
-La mayor complejidad presente en este proyecto ha sido obtener las direcciones virtuales de cada contenedor desplegado sobre el cluster Swarm, ya que son necesarias para poder comunicarse con las instancias directamente. Docker, por defecto, cuando crea una red entre servicios, se puede invocar directamente al nombre del servicio para acceder a él, pero en el caso de que se despligue el servicio en modo replicado y éste haya sido configurado para tener más de una replica, por defecto, Docker actúa como un balanceador de carga y sólo responde con una única dirección IP correspondiente a un único contenedor. Esto ha sido un duro handicap, ya que se requería conocer todas las direcciones de los contenedores desplegados.\newline
+La mayor complejidad presente en este proyecto ha sido obtener las direcciones virtuales de cada contenedor desplegado sobre el cluster Swarm, ya que son necesarias para poder comunicarse con las instancias directamente. Docker, por defecto, cuando crea una red entre servicios, puede invocar directamente al nombre del servicio para acceder a él, pero en el caso de que se despligue el servicio en modo replicado y éste haya sido configurado para tener más de una replica, por defecto, Docker actúa como un balanceador de carga y sólo responde con una única dirección IP correspondiente a un único contenedor. Esto ha sido un duro handicap, ya que se requería conocer todas las direcciones de los contenedores desplegados.\newline
 
 
-Se plantearon dos tipos de arquitectura inicialmente, la primera de todas...
+Durante el análisis de cómo afrontar esta problemática, surgieron dos enfoques totalmente diferentes
 
 
-\subsection{Primer enfoque: Maestros / agentes}
+\subsection{Primer enfoque: Starter en cada imagen a desplegar}
 
-E
+Este enfoque surge tomando como referencia la mayoría de herramientas para service discovery usadas en Docker y en Kubernetes como Consul.io\footnote{https://www.consul.io/}. 
+
+Cada contenedor a desplegar, tiene una imagen modificada, la cual, antes de ejecutar el entrypoint predefinido en la imagen, ejecuta una pequeña aplicación, la cual, obtiene la IP virtual del contenedor y se la comunica al agente controlador, el cual lleva un listado de todas los contenedores descubiertos. 
+
+%% INSERTAR IMAGEN CON LA ARQUITECTURA
+
+Este enfoque, implicaba modificar todas las posibles imágenes a usar con la aplicación, con lo que se reducía drásticamente la facilidad de uso con otras aplicaciones al requerir que en caso de no existir la imagen modificada deseada a desplegar con Automation Test Queue, obligaría al usuario a modificarla por él mismo.
+
+\subsection{Segundo enfoque: Single Daemon y DNS Round Robin}
+
+Con una configuración de red entre servicios Docker configurada para operar con el algoritmo DNS Round Robin, se consigue disponer de la lista de todas las direcciones IP Virtuales de los contenedores de un mismo servicio.\newline
+
+Disponiendo de esta información, dejaría de ser necesario un descubrimiento de servicios como el expuesto en el anterior punto, dotando a la aplicación de la sencillez de uso deseada debido a que el usuario ya no tendría que modificar la imagen a utilizar.
+
+%% INSERTAR IMAGEN CON LA ARQUITECTURA
 
 \section{Diseño e Implementación}
 \label{sec:diseno-implementacion}
 
+Aunque, la planificación de la herramienta se ha realizado con un enfoque bottom-up, el diseño de la misma va a ser expuesto utilizando el enfoque contrario, top-down, es decir, desde lo mas abstracto a lo más específico. 
+
+\subsection{API REST}
+
+El diseño de la interfaz con la que trabajará el usuario que utilice esta aplicación ha sido diseñada meticulosamente utilizando el framework de Go \textit{GoaDesign}, el cual, obliga a definir el diseño de la API con un lenguaje declarativo propio antes de la implementación.\newline
+
+Se define el concepto \textbf{Tarea} como la definición de las pruebas a ejecutar usando el framework Automation Test Queue.\newline 
+
+%% INSERTAR ESTRUCTURA DE LA TAREA
+
+Se ofrecen diferentes acciones descritas a continuación
+
 \begin{itemize}
-  \item Diagrama de estados del proceso de orquestación
-  \item Diseño de la API REST, funciones, endpoints...
-  \item Dockerfile JMeter con su script bash
-  \item Dockerfile build Golang + dep dependency manager
-  \item Implementación algoritmo Descubrimiento de contenedores DNSRR
+  \item \textbf{/databind} Operaciones relacionadas con la gestión de archivos
+  \subitem \textit{GET /list} Devuelve una lista de los ficheros disponibles en el orquestador
+  \subitem \textit{POST /upload} Subir un fichero \*.zip con contenidos para que esté disponible para una futura tarea
+  \item \textbf{/monitoring} Monitorización del framework
+  \subitem \textit{/ping} Devuelve un HTTP 200OK si el orquestador está operativo
+  \item \textbf{/swarm} Estado del cluster Swarm
+  \subitem \textit{GET /} Devuelve los detalles del Cluster Swarm
+  \item \textbf{/task} Operaciones con las tareas a lanzar con el framework
+      \subitem \textit{PUT /task} Crea una nueva tarea
+      \subitem \textit{DELETE /task/\{id\}} Elimina una tarea ya planificada
+      \subitem \textit{GET /task/\{id\}} Inspecciona una tarea planificada
 \end{itemize}
+
+\subsection{Fase de orquestación}
+\subsection{Imágenes Docker}
+\subsection{Service Discovery}
 
 \section{Integración Continua}
 \label{sec:integracion-continua}
