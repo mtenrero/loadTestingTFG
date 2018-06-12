@@ -47,18 +47,83 @@ Disponiendo de esta información, dejaría de ser necesario un descubrimiento de s
 
 %% INSERTAR IMAGEN CON LA ARQUITECTURA
 
+\subsection{Estructura del proyecto}
+
+El proyecto está íntegramente codificado en \textit{Go}. Sigue una estructura típica de este lenguaje, siempre teniendo en cuenta que se mencionan rutas relativas a la ubicación del repositorio (/github.com/mtenrero/ATQ-Director) bajo el \$GOPATH definido en el sistema.\newline
+
+\dirtree{%
+.1 \textbf{app} Código autogenerado por \textit{Goa}.
+.1 \textbf{client} Implementación de un cliente en Go, autogenerado.
+.1 \textbf{configLoader} Implementación de la configuración externalizada.
+.1 \textbf{dnsdiscovery} Implementación discovery DNS.
+.1 \textbf{dockerMiddleware} Middleware Docker.
+.1 \textbf{http}.
+.2 \textbf{design} Diseño API REST con el DSL de \textit{Goa}.
+.1 \textbf{persistance} Implementación persistencia datos.
+.1 \textbf{swagger} Especificación OpenAPI autogenerada.
+.1 \textbf{tool} Helper autogenerado para trabajar con la API.
+.1 \textbf{types} Mapeado tipos Goa/Middleware.
+.1 \textit{monitoring.go} Controlador Monitoring.
+.1 \textit{swarm.go} Controlador Swarm.
+.1 \textit{task.go} Controlador Task.
+.1 \textit{databind.go} Controlador Databind.
+}
+
+En el esquema anteriormente presentado, se puede apreciar que la implementación ha sido fragmentada en grandes paquetes para cumplir el estándar de \textit{Go} y de los principios \textit{KISS} y \textit{SOLID}.\newline
+
+En la raiz del directorio del proyecto se pueden apreciar unos ficheros con extensión \textit{.go}, contienen los controladores para cada endpoint definido con el DSL de \textit{Goa} en el paquete \textit{http/design}. Se genera la estructura básica en la primera ejecución de \textit{goagen} y a partir de ahí se integra la implementación propia de cada endpoint.\newline
+
+El paquete \textbf{persistance} contiene la implementación de un almacén de datos clave/valor muy básico que se utiliza para el almacenamiento de tareas planificadas y las características definidas por el usuario.\newline
+
+Para gestionar la configuración externalizada a través de ficheros YAML, se ha creado el paquete \textbf{configLoader}. Es responsable de la carga de parámetros desde el fichero especificado.\newline
+
+Los paquetes \textbf{dockerMiddleware} y \textbf{dnsdiscovery} contienen la implementación mas significativa para el framework y se detallarán más adelante.
+
 \section{Diseño e Implementación}
 \label{sec:diseno-implementacion}
 
 Aunque, la planificación de la herramienta se ha realizado con un enfoque bottom-up, el diseño de la misma va a ser expuesto utilizando el enfoque contrario, top-down, es decir, desde lo mas abstracto a lo más específico. 
 
-\subsection{API REST}
+\subsection{API REST y modelo de datos}
 
 El diseño de la interfaz con la que trabajará el usuario que utilice esta aplicación ha sido diseñada meticulosamente utilizando el framework de Go \textit{GoaDesign}, el cual, obliga a definir el diseño de la API con un lenguaje declarativo propio antes de la implementación.\newline
 
-Se define el concepto \textbf{Tarea} como la definición de las pruebas a ejecutar usando el framework Automation Test Queue.\newline 
+Se valoraron otros frameworks de red para Go, pero ninguno de ellos se enfocaba en primero el diseño y posteriormente la implementación, siendo \textit{Goa} el único que si lo ofrecía. Además, una parte fuerte de este framework es la generación automática de Documentación, ya que genera ficheros OpenAPI compatibles con Swagger\footnote{http://swagger.io}.\newline
 
-%% INSERTAR ESTRUCTURA DE LA TAREA
+La definición del modelo de datos con el que trabaja la API REST está fuertemente ligado a la fase de definición de la API con \textit{Goa}, ya que este framework obliga a definir las estructuras de datos en su propio lenguaje DSL, y es el propio framework el que genera las \textit{structs} de \textit{Go} cuando se genera el código.
+
+\subsubsection{Tarea}
+
+Se definió el concepto \textbf{Tarea} como la definición de las pruebas a ejecutar usando el framework Automation Test Queue.\newline 
+
+Una tarea tiene una serie de propiedades tales como:
+
+\begin{itemize}
+  \item \textbf{Delay} Segundos a esperar entre el despliegue del servicio de workers y el servicio maestro.
+  \item \textbf{Name} Nombre de la tarea a desplegar, es su identificador único en el clúster.
+  \item \textbf{WaitCommand} Comando a ejecutar en un contenedor aislado, para asegurar que se han desplegado los contenedores del servicio worker correctamente.
+  \item \textbf{Master} Definición del servicio Maestro
+  \item \textbf{Worker} Definición del servicio Worker
+\end{itemize}
+
+\subsubsection{Definición de Servicio}
+
+Los servicios Maestro y Worker tienen los mismos parámetros de definición, y a nivel de estructura no los diferencia ninguna característica.
+
+
+En el contexto del framework Automation Test Queue, un servicio es la definición de la imagen Docker a desplegar con una serie de características de despliegues ligadas al propio framework.
+
+\begin{itemize}
+  \item \textbf{Alias} Identificador del servicio
+  \item \textbf{Args} Argumentos que se ejecutarán en cada contenedor del servicio
+  \item \textbf{Environment} Lista de variables de entorno que se configurarán en cada contenedor del servicio. Existen una variable reservadas para uso interno del framework, \textbf{WORKER\_CSV\_VIPS}, cuya funcionalidad se detallará en los próximos capítulos.
+  \item \textbf{FileID} Identificador de un fichero subido previamente a través del endpoint \textit{/databind/upload} que se montará en el servicio para que su contenido esté disponible en los contenedores del servicio.
+  \item \textbf{Image} Nombre de la imagen Docker a utilizar.
+  \item \textbf{Replicas} Cantidad de contenedores a desplegar para el servicio
+  \item \textbf{Tty} Parámetro que fuerta la consola interactiva en el servicio.
+\end{itemize}
+
+\subsubsection{Endpoint API}
 
 Se ofrecen diferentes acciones descritas a continuación
 
@@ -67,7 +132,7 @@ Se ofrecen diferentes acciones descritas a continuación
   \subitem \textit{GET /list} Devuelve una lista de los ficheros disponibles en el orquestador
   \subitem \textit{POST /upload} Subir un fichero \*.zip con contenidos para que esté disponible para una futura tarea
   \item \textbf{/monitoring} Monitorización del framework
-  \subitem \textit{/ping} Devuelve un HTTP 200OK si el orquestador está operativo
+  \subitem \textit{GET /ping} Devuelve un HTTP 200OK si el orquestador está operativo
   \item \textbf{/swarm} Estado del cluster Swarm
   \subitem \textit{GET /} Devuelve los detalles del Cluster Swarm
   \item \textbf{/task} Operaciones con las tareas a lanzar con el framework
@@ -76,7 +141,42 @@ Se ofrecen diferentes acciones descritas a continuación
       \subitem \textit{GET /task/\{id\}} Inspecciona una tarea planificada
 \end{itemize}
 
+Durante el diseño de la API, se tuvo en cuenta todos los tipos de respuesta que puede ofrecer y el contenido de cada mensaje. Se puede consultar en la definición completa de la API en los anexos
+
+
+%% Incluir en anexo la definición de la API
+
+\subsection{Docker Middleware}
+
+El Middleware de Docker fue uno de las primeras tareas realizadas durante el desarrollo del framework. Su función es crítica, se encarga de comunicarse con el demonio de Docker a través del SDK proporcionado por Docker para el lenguaje Golang\footnote{https://github.com/docker/go-docker}.\newline
+
+Ofrece una interfaz para las tareas más sencillas ofrecidas por la API de Docker como:
+
+\begin{itemize}
+  \item \textbf{Gestión Volúmenes}
+  		\subitem{Bindado}
+  		\subitem{Eliminación}
+  \item \textbf{Gestión Redes Overlay}
+  		\subitem{Creación}
+  		\subitem{Agregación}
+  		\subitem{Eliminación}
+  \item \textbf{Gestión Servicios}
+  		\subitem{Creación}
+  		\subitem{Eliminación} 
+  \item \textbf{Tareas auxiliares}
+  \item \textbf{Mapeo de configuraciones}
+\end{itemize}
+
+Además, ofrece multitud de abstracciones a la estructura definida por el paquete oficial de Docker preconfiguradas para los propósitos del framework.
+
+%% ¿AMPLIAR?
+
+Este paquete también contiene la implementación de la orquestación propia del framework Automation Test Queue debido a la alta dependencia de estos paquetes.
+
 \subsection{Fase de orquestación}
+
+
+
 \subsection{Imágenes Docker}
 \subsection{Service Discovery}
 
