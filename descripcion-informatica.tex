@@ -218,7 +218,30 @@ El despliegue del servicio maestro es muy similar al despliegue del servicio Wor
 
 %% Describir finalización de servicios.
 
-Una vez que se ha finalizado la orquestación del servicio Master, se eliminar el servicio Discovery desplegado al inicio de la orquestación de la tarea.
+Una vez que se ha finalizado la orquestación del servicio Master, se elimina el servicio Discovery desplegado al inicio de la orquestación de la tarea.
+
+\subsection{Almacenamiento de datos}
+
+Se ha utilizado por simplicidad el paquete \textit{buntdb}\footnote{https://github.com/tidwall/buntdb} para el almacenamiento de datos del framework. Se basa en un esquema clave/valor, siendo compatible con otras soluciones de almacenamiento de datos distribuidos similares, como etcd\footnote{https://coreos.com/etcd/}.\newline
+
+Todas las operaciones relacionadas con el almacenamiento de datos se encuentran en el paquete \textbf{Persistence}. En el lanzamiento del framework, durante las primeras instrucciones, se realiza una llamada al método \textit{InitPersistence()}, el cual devuelve un struct del tipo \textit{*Persistence} que contiene la instancia inicializada de \textit{BuntDB} y ésta es inyectada sobre los controladores que hacen uso de ella, como es el caso del controlador \textbf{Task}.\newline
+
+Debido a la naturaleza del lenguaje \textit{Go} y la implementación del paquete \textit{BuntDB}, se ha creado un wrapper para el almacenamiento y la obtención de datos para gestionar las llamadas de una manera más simple y comprensible.\newline
+
+Se encuentra en el fichero \textit{wrapper.go} y ofrece los métodos 
+
+\begin{itemize}
+\item \textbf{store(key, value string) error} Almacena una nueva entrada.
+\item \textbf{read(key string) (string, error)} Obtiene el valor de una clave dada. 
+\item \textbf{delete(key string) error} Elimina una entrada del almacenamiento de datos.
+\item \textbf{iterateStringString(index string) (*map[string]string, error)} Devuelve una colección de entradas dado un patrón de indexado existente.
+\end{itemize}
+
+Para conseguir un funcionamiento similar a objetos con múltiples propiedades, \textit{BuntDB} ofrece una solución abstracta, la definición de índices mediante wildcards.
+
+Por ello, se ha configurado un índice para permitir obtener múltiples propiedades indicando un identificador de tarea, definiendo el patrón de almacenamiento de datos \textit{task:*:} \newline
+
+El uso de un almacenamiento de datos es necesario para almacenar el estado actual de la tarea y los identificadores de los directorios bindados a cada servicio. Como restricción se ha implementado un control de duplicidades, para asegurarse de que no se desplieguen dos tareas con el mismo identificador.
 
 \subsection{Imágenes Docker}
 \subsection{Service Discovery}
