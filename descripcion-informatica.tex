@@ -31,9 +31,9 @@ Durante el análisis de cómo afrontar esta problemática, surgieron dos enfoques t
 
 \subsection{Primer enfoque: Starter en cada imagen a desplegar}
 
-Este enfoque surge tomando como referencia la mayoría de herramientas para service discovery usadas en Docker y en Kubernetes como Consul.io\footnote{https://www.consul.io/}. 
+Este enfoque surge tomando como referencia la mayoría de herramientas para service discovery usadas en Docker y en Kubernetes como Consul.io\footnote{https://www.consul.io/}.
 
-Cada contenedor a desplegar, tiene una imagen modificada, la cual, antes de ejecutar el entrypoint predefinido en la imagen, ejecuta una pequeña aplicación, la cual, obtiene la IP virtual del contenedor y se la comunica al agente controlador, el cual lleva un listado de todas los contenedores descubiertos. 
+Cada contenedor a desplegar, tiene una imagen modificada, la cual, antes de ejecutar el entrypoint predefinido en la imagen, ejecuta una pequeña aplicación, la cual, obtiene la IP virtual del contenedor y se la comunica al agente controlador, el cual lleva un listado de todas los contenedores descubiertos.
 
 %% INSERTAR IMAGEN CON LA ARQUITECTURA
 
@@ -79,10 +79,17 @@ Para gestionar la configuración externalizada a través de ficheros YAML, se ha c
 
 Los paquetes \textbf{dockerMiddleware} y \textbf{dnsdiscovery} contienen la implementación mas significativa para el framework y se detallarán más adelante.
 
+\subsection{Apache JMeter dockerizado}
+
+Existen multitud de imágenes de JMeter disponibles en DockerHub\footnote{https://hub.docker.com/}, todas creadas por la comunidad. Al no existir ninguna imagen oficial, para no dar nada por sentado, se construirá una imagen Docker de Apache JMeter desde el sistema operativo básico para así poder controlar completamente el funcionamiento de la herramienta.\newline
+
+Además se debe ofrecer un modo de configuración a través de variables de entorno para que sea fácilmente ejecutable por línea de comandos para garantizar una integración completa con la automatización.
+
+
 \section{Diseño e Implementación}
 \label{sec:diseno-implementacion}
 
-Aunque, la planificación de la herramienta se ha realizado con un enfoque bottom-up, el diseño de la misma va a ser expuesto utilizando el enfoque contrario, top-down, es decir, desde lo mas abstracto a lo más específico. 
+Aunque, la planificación de la herramienta se ha realizado con un enfoque bottom-up, el diseño de la misma va a ser expuesto utilizando el enfoque contrario, top-down, es decir, desde lo mas abstracto a lo más específico.
 
 \subsection{API REST y modelo de datos}
 
@@ -94,7 +101,7 @@ La definición del modelo de datos con el que trabaja la API REST está fuertement
 
 \subsubsection{Tarea}
 
-Se definió el concepto \textbf{Tarea} como la definición de las pruebas a ejecutar usando el framework Automation Test Queue.\newline 
+Se definió el concepto \textbf{Tarea} como la definición de las pruebas a ejecutar usando el framework Automation Test Queue.\newline
 
 Una tarea tiene una serie de propiedades tales como:
 
@@ -162,7 +169,7 @@ Ofrece una interfaz para las tareas más sencillas ofrecidas por la API de Docker
   		\subitem{Eliminación}
   \item \textbf{Gestión Servicios}
   		\subitem{Creación}
-  		\subitem{Eliminación} 
+  		\subitem{Eliminación}
   \item \textbf{Tareas auxiliares}
   \item \textbf{Mapeo de configuraciones}
 \end{itemize}
@@ -175,13 +182,13 @@ Este paquete también contiene la implementación de la orquestación propia del fr
 
 \subsection{Fase de orquestación}
 
-El proceso de orquestación está implementado en el paquete dockerMiddleware. El proceso parte de una definición de una tarea que se recibe vía API HTTP. Se comienza con el despliegue de un servicio global auxiliar, creado específicamente para el proyecto. 
+El proceso de orquestación está implementado en el paquete dockerMiddleware. El proceso parte de una definición de una tarea que se recibe vía API HTTP. Se comienza con el despliegue de un servicio global auxiliar, creado específicamente para el proyecto.
 
 \subsubsection{Despliegue del descubridor de servicios}
 
 Este servicio contiene otra aplicación \textit{Go} muy básica creada específicamente para este proyecto. El servicio expone otra API REST cuyo principal cometido, es devolver una lista con las direcciones IP encontradas para un determinado nombre de dominio. Para el correcto funcionamiento de este servicio es necesario que el servidor DNS al que se dirige la petición responda con una lista completa de todos los registros A disponibles para el dominio consultado, y ésto, en el contexto de Docker, sólo es posible si el el servicio identificado por el nombre de dominio proporcionado está desplegado con una configuración de red de DNS Round-Robin. \newline
 
-Se utiliza el paquete \textit{net} proporcionado por defecto por el lenguaje para realizar la resolución de nombres DNS. El único endpoint que expone la API es el siguiente: 
+Se utiliza el paquete \textit{net} proporcionado por defecto por el lenguaje para realizar la resolución de nombres DNS. El único endpoint que expone la API es el siguiente:
 
 \begin{itemize}
 	\item \textit{GET /api/:hostname} Devuelve las IPs encontradas en el DNS para el \textit{hostname} indicado
@@ -198,7 +205,7 @@ La aplicación se ha dockerizado y publicado tanto en GitHub\footnote{https://git
 
 Desde un punto de vista arquitectónico, el servicio Docker se despliega de modo global, exponiendo el mismo puerto para que sea accesible en todos los nodos controladores del clúster y asegurarse la accesibilidad desde el framework Automation Test Queue.
 
-El carácter de este servicio es efímero, una vez que ha cumplido su cometido, al finalizar la orquestación de la tarea, el servicio es eliminado. 
+El carácter de este servicio es efímero, una vez que ha cumplido su cometido, al finalizar la orquestación de la tarea, el servicio es eliminado.
 
 \subsubsection{Despliegue de Workers}
 
@@ -206,7 +213,7 @@ Una vez que el servicio de descubrimiento de direcciones está correctamente desp
 
 Para asegurarse de que todos los nodos están disponibles, de manera genérica, mediante una espera activa, por medio de canales de \textit{Go}, se espera hasta que el descubrimiento de servicios devuelve una cantidad de direcciones igual a la cantidad de réplicas especificadas en la tarea por el usuario. Una vez que se ha detectado la cantidad correcta de contenedores, si se ha especificado en la tarea, se realizan comprobaciones de salud sobre todos los contenedores.\newline
 
-El comando de comprobación de salud es ejecutado en un nuevo contenedor que comparte la misma red de los servicios desplegados para garantizar una seguridad mínima en el sistema. Por un lado, se aísla el sistema host, ya que se ejecuta en un contenedor aislado, sin capacidad de conectarse al socket de Docker, por otro, al solo disponer acceso a la red interna de la tarea, dispone de un acceso muy limitado al resto de recursos de red, lo que limita el riesgo en los posibles comandos a ejecutar por parte del usuario. 
+El comando de comprobación de salud es ejecutado en un nuevo contenedor que comparte la misma red de los servicios desplegados para garantizar una seguridad mínima en el sistema. Por un lado, se aísla el sistema host, ya que se ejecuta en un contenedor aislado, sin capacidad de conectarse al socket de Docker, por otro, al solo disponer acceso a la red interna de la tarea, dispone de un acceso muy limitado al resto de recursos de red, lo que limita el riesgo en los posibles comandos a ejecutar por parte del usuario.
 
 Una vez que se ha verificado la salud de todos los contenedores, se procede a la orquestación del servicio Master.
 
@@ -228,11 +235,11 @@ Todas las operaciones relacionadas con el almacenamiento de datos se encuentran 
 
 Debido a la naturaleza del lenguaje \textit{Go} y la implementación del paquete \textit{BuntDB}, se ha creado un wrapper para el almacenamiento y la obtención de datos para gestionar las llamadas de una manera más simple y comprensible.\newline
 
-Se encuentra en el fichero \textit{wrapper.go} y ofrece los métodos 
+Se encuentra en el fichero \textit{wrapper.go} y ofrece los métodos
 
 \begin{itemize}
 \item \textbf{store(key, value string) error} Almacena una nueva entrada.
-\item \textbf{read(key string) (string, error)} Obtiene el valor de una clave dada. 
+\item \textbf{read(key string) (string, error)} Obtiene el valor de una clave dada.
 \item \textbf{delete(key string) error} Elimina una entrada del almacenamiento de datos.
 \item \textbf{iterateStringString(index string) (*map[string]string, error)} Devuelve una colección de entradas dado un patrón de indexado existente.
 \end{itemize}
