@@ -305,20 +305,28 @@ Tomando como ejemplo el paquete \textit{\textbf{persistence}} se han realizado u
 
 La mayoría de los ficheros anteriormente indicados, se corresponden conceptualmente con un fichero con el mismo nombre sin la terminación \_test. Esos ficheros contienen la implementación de la funcionalidad descrita.\newline
 
-De esta manera, se ofrece a un futuro desarrollador, además de unas pruebas que aseguren una regresión, un ejemplo de cómo usar las implementaciones ofrecidas, ya que se han realizado pruebas para prácticamente la totalidad de la implementación realizada salvo una mínima excepción.\newline
+De esta manera, se ofrece a un futuro desarrollador, además de unas pruebas que aseguren una regresión, un ejemplo de cómo usar las implementaciones ofrecidas, ya que se han realizado pruebas para prácticamente la totalidad de la implementación realizada salvo una mínima excepción.
 
-\subsection{Seguimiento de la cobertura}
+\subsection{Tecnologías utilizadas}
 
 Para realizar un seguimiento sobre la cobertura de tests se ha utilizado la plataforma Coveralls.io\footnote{https://coveralls.io/github/mtenrero/ATQ-Director}. Permite visualizar gráficamente la evolución de la cobertura entre los diferentes commits realizados al control de versiones.\newline
 
-Para el correcto uso de esta plataforma ha sido necesario apoyarse en la librería \textit{Goveralls}\footnote{https://github.com/mattn/goveralls}. Esta librería envía los resultados de las pruebas a la plataforma Coveralls.io. Durante el cambio a Jenkins como sistema de Integración Continua, Goveralls no ofrecía soporte completo para este sistema de CI y fue necesario introducir algunos cambios en el repositorio\footnote{https://github.com/mtenrero/goveralls} mediante un Pull Request\footnote{https://github.com/mattn/goveralls/pull/116} para mejorar la compatibilidad con Jenkins.
+Para el correcto uso de esta plataforma ha sido necesario apoyarse en la librería \textit{Goveralls}\footnote{https://github.com/mattn/goveralls}. Esta librería envía los resultados de las pruebas a la plataforma Coveralls.io. Durante el cambio a Jenkins como sistema de Integración Continua, Goveralls no ofrecía soporte completo para este sistema de CI y fue necesario introducir algunos cambios en el repositorio\footnote{https://github.com/mtenrero/goveralls} mediante un Pull Request\footnote{https://github.com/mattn/goveralls/pull/116} para mejorar la compatibilidad con Jenkins.\newline
+
+Se ha utilizado el paquete de testing nativo de \textit{Go} y el paquete \textit{Testify}\footnote{github.com/stretchr/testify/assert} que proporciona una serie de funciones y utilidades para simplificar el proceso de testeo, como comparaciones, expected conditions, etc...
 
 \subsection{Cobertura de tests}
 
 En un primer lugar se realizaron tests básicos sobre los casos de uso necesarios y posteriormente, estos tests se fueron ampliando para disponer de una regresión completa en la mayoría de paquetes.
 
-El paquete dockerMiddleware dispone de una cobertura de test del 42,02\%
+\subsubsection{Docker Middleware}
 
-Dentro de cada fichero de test se encuentran los diferentes test
+El paquete dockerMiddleware dispone de una cobertura de test del 42,02\%, y esto es debido a que las pruebas a realizar sobre este paquete en realidad pertenecen mas a pruebas de integración ya que requieren comunicarse con el demonio de Docker del sistema y requieren una serie de pre comprobaciones. No obstante, se han implementado la mayor parte de pruebas posibles, sobre todo para las operaciones más básicas como crear y eliminar redes, contenedores y volúmenes. 
 
+\subsubsection{Cargador de configuraciones}
 
+El paquete configLoader dispone de una cobertura de tests del 100\%, ya que es el encargado de la lectura y propagación de configuraciones desde un fichero YAML.
+
+\subsubsection{Persistence}
+
+El paquete de gestión de la persistencia de datos dispone de una cobertura de test del 87,56\%, cubriendo casi la totalidad de la funcionalidad. Quedando fuera de la regresión ciertos casos muy difíciles de conseguir al estar relacionados propiamente con la librería, pero como se tienen en cuenta en los test el valor esperado por la llamada a dichas funciones, se puede afirmar casi con total seguridad que se podría detectar prácticamente cualquier fallo.
