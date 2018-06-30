@@ -286,7 +286,39 @@ Esto ha permitido describir el workflow de ejecución de manera totalmente agnóst
 \section{Pruebas}
 \label{sec:pruebas}
 
-Hablar de Cobertura de Test, como se ha organizado por paquetes, cómo está integrado con el Pipeline de IC de Jenkins, los triggers que tiene configurado...
-\newline
+Desde el comienzo del proyecto, la parte de las pruebas sobre la aplicación ha sido muy importante debido a la aplicación de las metodologías ágiles y TDD, ademas del uso de la librería Goa con la que se ha realizado la interfaz REST del Middleware.\newline
 
-Explicar cómo se diseñaron primero los tests básicos, luego la implementación, y después se amplió la cobertura de tests
+Se ha organizado el proyecto siguiendo el estándar de \textit{Go}, es decir, dentro de cada paquete se han alojado sus tests unitarios. Los tests se diferencian del código en el nombre de fichero, ya que por convenio, los ficheros test en Go deben finalizar con la palabra \textit{\_test.go}.\newline
+
+Es común encontrar diferentes ficheros de test en cada paquete ya que se ha seguido un estilo de distribución de ficheros por funcionalidad para así ofrecer un mayor facilidad para comprender el código.\newline
+
+Tomando como ejemplo el paquete \textit{\textbf{persistence}} se han realizado un total de seis ficheros de test:
+
+\begin{itemize}
+  \item \textbf{databind\_test.go} Contiene los tests relacionados con las operaciones sobre la entidad \textit{databind}, encargada de las operaciones con los ficheros que proporciona el usuario para sus tests.
+  \item \textbf{filesystem\_test.go} Contiene los tests de almacenamiento de la base de datos clave/valor sobre el sistema de ficheros del sistema.
+  \item \textbf{persistence\_test.go} Comprueba la escritura y la lectura básica utilizando la implementación de almacenamiento.
+  \item \textbf{task\_test.go} Contiene los tests sobre todas las posibles operaciones relacionadas con la entidad Task del Middleware.
+  \item \textbf{timestamper\_test.go} Comprueba el funcionamiento correcto del generador de UUIDs basado en Timestamp.
+  \item \textbf{wrapper\_test.go} Tests relacionados sobre el wrapper que encapsula y simplifica el uso de la librería BuntDB.
+\end{itemize}
+
+La mayoría de los ficheros anteriormente indicados, se corresponden conceptualmente con un fichero con el mismo nombre sin la terminación \_test. Esos ficheros contienen la implementación de la funcionalidad descrita.\newline
+
+De esta manera, se ofrece a un futuro desarrollador, además de unas pruebas que aseguren una regresión, un ejemplo de cómo usar las implementaciones ofrecidas, ya que se han realizado pruebas para prácticamente la totalidad de la implementación realizada salvo una mínima excepción.\newline
+
+\subsection{Seguimiento de la cobertura}
+
+Para realizar un seguimiento sobre la cobertura de tests se ha utilizado la plataforma Coveralls.io\footnote{https://coveralls.io/github/mtenrero/ATQ-Director}. Permite visualizar gráficamente la evolución de la cobertura entre los diferentes commits realizados al control de versiones.\newline
+
+Para el correcto uso de esta plataforma ha sido necesario apoyarse en la librería \textit{Goveralls}\footnote{https://github.com/mattn/goveralls}. Esta librería envía los resultados de las pruebas a la plataforma Coveralls.io. Durante el cambio a Jenkins como sistema de Integración Continua, Goveralls no ofrecía soporte completo para este sistema de CI y fue necesario introducir algunos cambios en el repositorio\footnote{https://github.com/mtenrero/goveralls} mediante un Pull Request\footnote{https://github.com/mattn/goveralls/pull/116} para mejorar la compatibilidad con Jenkins.
+
+\subsection{Cobertura de tests}
+
+En un primer lugar se realizaron tests básicos sobre los casos de uso necesarios y posteriormente, estos tests se fueron ampliando para disponer de una regresión completa en la mayoría de paquetes.
+
+El paquete dockerMiddleware dispone de una cobertura de test del 42,02\%
+
+Dentro de cada fichero de test se encuentran los diferentes test
+
+
