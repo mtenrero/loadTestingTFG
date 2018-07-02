@@ -38,13 +38,18 @@ La mayor complejidad presente en este proyecto ha sido obtener las direcciones v
 Durante el análisis de cómo afrontar esta problemática, surgieron dos enfoques totalmente diferentes
 
 
-\subsection{Primer enfoque: Starter en cada imagen a desplegar}
+\subsection{Primer enfoque: Starter en cada contenedor a desplegar}
 
 Este enfoque surge tomando como referencia la mayoría de herramientas para service discovery usadas en Docker y en Kubernetes como Consul.io\footnote{https://www.consul.io/}.
 
 Cada contenedor a desplegar, tiene una imagen modificada, la cual, antes de ejecutar el entrypoint predefinido en la imagen, ejecuta una pequeña aplicación, la cual, obtiene la IP virtual del contenedor y se la comunica al agente controlador, el cual lleva un listado de todas los contenedores descubiertos.
 
-%% INSERTAR IMAGEN CON LA ARQUITECTURA
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{old_arch}
+    \caption{Arquitectura 0 Starter en cada contenedor}
+    \label{fig:old_arch}
+\end{figure}
 
 Este enfoque, implicaba modificar todas las posibles imágenes a usar con la aplicación, con lo que se reducía drásticamente la facilidad de uso con otras aplicaciones al requerir que en caso de no existir la imagen modificada deseada a desplegar con Automation Test Queue, obligaría al usuario a modificarla por él mismo.
 
@@ -54,7 +59,12 @@ Con una configuración de red entre servicios Docker configurada para operar con 
 
 Disponiendo de esta información, dejaría de ser necesario un descubrimiento de servicios como el expuesto en el anterior punto, dotando a la aplicación de la sencillez de uso deseada debido a que el usuario ya no tendría que modificar la imagen a utilizar.
 
-%% INSERTAR IMAGEN CON LA ARQUITECTURA
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{new_arch}
+    \caption{Arquitectura 1 DNS RR con Auto Discovery}
+    \label{fig:new_arch}
+\end{figure}
 
 \subsection{Estructura del proyecto}
 
