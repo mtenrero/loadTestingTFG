@@ -40,7 +40,7 @@ Durante el análisis de cómo afrontar esta problemática, surgieron dos enfoques t
 
 \subsection{Primer enfoque: Starter en cada contenedor a desplegar}
 
-Este enfoque surge tomando como referencia la mayoría de herramientas para service discovery usadas en Docker y en Kubernetes como Consul.io\footnote{https://www.consul.io/}.
+Este enfoque\footnote{https://github.com/mtenrero/AutomationTestQueue} surge tomando como referencia la mayoría de herramientas para service discovery usadas en Docker y en Kubernetes como Consul.io\footnote{https://www.consul.io/}.
 
 Cada contenedor a desplegar, tiene una imagen modificada, la cual, antes de ejecutar el entrypoint predefinido en la imagen, ejecuta una pequeña aplicación, la cual, obtiene la IP virtual del contenedor y se la comunica al agente controlador, el cual lleva un listado de todas los contenedores descubiertos.
 
@@ -55,7 +55,7 @@ Este enfoque, implicaba modificar todas las posibles imágenes a usar con la apli
 
 \subsection{Segundo enfoque: Single Daemon y DNS Round Robin}
 
-Con una configuración de red entre servicios Docker configurada para operar con el algoritmo DNS Round Robin, se consigue disponer de la lista de todas las direcciones IP Virtuales de los contenedores de un mismo servicio.\newline
+Con una configuración de red entre servicios Docker configurada para operar con el algoritmo DNS Round Robin, se consigue disponer de la lista de todas las direcciones IP Virtuales de los contenedores de un mismo servicio.\footnote{https://github.com/mtenrero/ATQ-Director}\newline
 
 Disponiendo de esta información, dejaría de ser necesario un descubrimiento de servicios como el expuesto en el anterior punto, dotando a la aplicación de la sencillez de uso deseada debido a que el usuario ya no tendría que modificar la imagen a utilizar.
 
@@ -65,6 +65,16 @@ Disponiendo de esta información, dejaría de ser necesario un descubrimiento de s
     \caption{Arquitectura 1 DNS RR con Auto Discovery}
     \label{fig:new_arch}
 \end{figure}
+
+De esta manera, el middleware \textit{\textbf{Automation Test Queue}} se comunicaría directamente con el demonio de Docker a través del SDK proporcionado por la comunidad y se encargaría de toda la orquestación necesaria para el despliegue automático de test de carga en el clúster.\newline
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{flyview_arch}
+    \caption{ATQ low level architecture}
+    \label{fig:flyview_arch}
+\end{figure}
+
 
 \subsection{Estructura del proyecto}
 
