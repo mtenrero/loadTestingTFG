@@ -5,13 +5,22 @@
 \section{Requisitos}
 \label{sec:requisitos}
 
-Tras un análisis del proyecto a desarrollar se llegó a la conclusión de que había que seguir un enfoque top-down, o de arriba hacia abajo. Era necesario que durante toda la etapa del desarrollo, se tuviese muy claro a dónde se pretendía llegar. Siendo los objetivos principales los siguientes:
+Teniendo en cuenta las carencias observadas durante el despliegue manual y tradicional de Apache JMeter se observaron diferentes puntos a mejorar:
 
 \begin{itemize}
-  \item Capacidad de desplegar los servicios Docker necesarios para una tarea específica
-  \item Networking automático y transparente
-  \item Interfaz sencilla para el usuario
-  \item Integración completa con Apache JMeter
+  \item Configuración manual nodo a nodo
+  \item Obligatoriedad de administración y mantenimiento de la infraestructura
+  \item Seguridad en las comunicaciones de red
+  \item Crecimiento horizontal real
+\end{itemize}
+
+Tras un análisis del proyecto a desarrollar, se llegó a la conclusión de que había que seguir un enfoque top-down, o de arriba hacia abajo. Era necesario que durante toda la etapa del desarrollo, se tuviese muy claro a dónde se pretendía llegar. Siendo los objetivos principales los siguientes:
+
+\begin{itemize}
+  \item \textbf{Capacidad de desplegar los servicios Docker necesarios para una tarea específica} de manera transparente y automática
+  \item \textbf{Networking automático y transparente} que cifre o aísle las comunicaciones entre todos los contenedores.
+  \item \textbf{Interfaz sencilla para el usuario} para crear una capa de abstracción de la administración de sistemas tradicional.
+  \item \textbf{Integración completa con Apache JMeter} ya que es la herramienta en la que se basa el proyecto, sin olvidar que el middleware o framework a desarrollar debería permitir ser usado con cualquier otra herramienta.
 \end{itemize}
 
 Así se mostró en el tablero Kanban del proyecto, proporcionado por GitHub para el repositorio concreto\footnote{https://github.com/mtenrero/ATQ-Director}.
