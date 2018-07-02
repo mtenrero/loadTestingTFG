@@ -107,3 +107,7 @@ Para ejecutar un test de carga distribuido, una vez que la infraestructura previ
 \subsubsection{Publicación de resultados}
 
 Es posible especificar un \textbf{\textit{Listener}} durante la ejecución del nodo maestro junto al test para así poder exportar en tiempo real los resultados del test a un sistema externo como \textit{Apache Kafka}, \textit{ElasticSearch}, una base de datos entre otros.
+
+\subsubsection{Consideraciones adicionales: Cifrado de comunicaciones}
+
+Es común utilizar un cifrado SSL o TLS en las comunicaciones de red, y JMeter permite encriptar las comunicaciones entre los diferentes nodos con SSL\footnote{https://jmeter.apache.org/usermanual/remote-test.html\#setup\_ssl}. Esto requiere de la generación de certificados y de un almacén de claves, lo que dificulta, aun mas, el despliegue de un clúster de forma tradicional.

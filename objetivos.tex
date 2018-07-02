@@ -2,25 +2,21 @@
 \chapter{Objetivos} % título del capítulo (se muestra)
 \label{chap:objetivos} % identificador del capítulo (no se muestra, es para poder referenciarlo)
 
-El propósito general de este trabajo es permitir de una manera sencilla y agnóstica poder ejecutar tests de rendimiento de manera distribuida, con capacidad de crecimiento horizontal en cualquier entorno, incluso en una nube privada y con independencia del sistema operativo ya que en el mundo empresarial, es un requisito bastante demandado.
+El propósito general de este trabajo es permitir de una manera sencilla y agnóstica poder ejecutar tests de rendimiento de manera distribuida, con capacidad de crecimiento horizontal en cualquier entorno, incluso en una nube privada y con independencia del sistema operativo ya que en el mundo empresarial, es un requisito bastante demandado. \newline
 
-Existen múltiples herramientas para poder ejecutar tests de rendimiento, incluso de forma distribuida, pero la mayoría requieren una configuración previa nodo a nodo, lo que obliga a una configuración manual de éstos y tener en cuenta la configuración de red entre ellos.
+Existen múltiples herramientas para poder ejecutar tests de rendimiento, incluso de forma distribuida, pero la mayoría requieren una configuración previa nodo a nodo, lo que obliga a una configuración manual de éstos y tener en cuenta la configuración de red entre ellos. \newline
 
-
-Para poder ofrecer una funcionalidad descrita en los párrafos anteriores, se ha optado por apoyarse en Docker, y en su modo de funcionamiento como clúster, Docker Swarm, lo que ofrece una nube privada creada a partir de las máquinas o nodos que el usuario considere. Permitiendo una gran flexibilidad y haciendo posible el despliegue en diversas arquitecturas.
-
-\space
+Para poder ofrecer una funcionalidad descrita en los párrafos anteriores, se ha optado por apoyarse en Docker, y en su modo de funcionamiento como clúster, Docker Swarm, lo que ofrece una nube privada creada a partir de las máquinas o nodos que el usuario considere, siendo posible crear un clúster heterogéneo en caso de ser necesario. Permitiendo una gran flexibilidad y haciendo posible el despliegue en diversas arquitecturas.\newline
 
 Las funcionalidades principales que ofrece el framework son las siguientes:
 
 \begin{itemize}
-  \item Interfaz sencilla para el usuario
+  \item Interfaz sencilla para el usuario (REST)
   \item Orquestación de contenedores, redes y volúmenes de forma transparente 
   \item Carácter efímero y reusable de la infraestructura
 \end{itemize}
 
 \clearpage
-
 
 Conseguir las funcionalidades descritas conlleva cumplir una serie de objetivos intermedios:
 
