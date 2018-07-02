@@ -36,3 +36,74 @@ La herramienta que se ha desarrollado durante la realización de este trabajo de 
 Por otra parte, llevo cerca de dos años trabajando en el departamento de automatización y calidad de software en una empresa multinacional de desarrollo de software, estando estos valores y premisas muy presentes en mi vida laboral. En los últimos meses, el análisis de rendimiento ha sido un objetivo muy importante en esta empresa, y mi labor se ha centrado en gran medida en esta tarea, diseñando y desplegando toda la infraestructura necesaria para poner en práctica el proyecto. 
 
 Este hecho me ha permitido probar en primera línea los avances sobre mi trabajo de fin de grado en un entorno empresarial real. 
+
+\section{Despliegue tradicional de Apache JMeter}
+
+Apache JMeter tiene diversos modos de funcionamiento, ya que ofrece dos interfaces, una gráfica y otra por línea de comandos. Para aprovechar varios nodos y poder lanzar un test de carga de forma distribuida, es necesario ejecutar la aplicación en modo nodo esclavo en cada uno de los nodos remotos en los que se va a ejecutar el test.\newline
+
+Por otro lado, estos nodos deben estar visibles entre sí dentro de la red, lo que implica una configuración manual del firewall para poder así abrir los puertos necesarios.\newline
+
+Un despliegue típico consistiría en los siguientes pasos:
+
+\subsubsection{Descarga de Apache JMeter}
+Bien via repositorio de paquetes \textit{Debian} o \textit{Red-Hat based} o vía fichero comprimido con los binarios pre-compilados por la fundación Apache.\newline
+
+Como ejemplo se va usar una distribución CentOS 7, basada en RedHat utilizando los binarios disponibles desde la página oficial de JMeter.
+
+\begin{lstlisting}[language=bash]
+  $ wget https://archive.apache.org/dist/jmeter/binaries/ \
+  apache-jmeter-3.3.zip
+  $ unzip jmeter-3.3.zip
+\end{lstlisting}  
+
+Con estos comandos se dispondría de los binarios de JMeter preparados para ser ejecutados en prácticamente cualquier sistema UNIX.
+
+\subsubsection{Configuración del firewall}
+
+JMeter requiere que el firewall esté correctamente configurado para permitir la comunicación entre nodos, esto implica la apertura de diversos puertos como \textbf{1099},\textbf{1664} entre otros, ya que depende de la configuración que se realice sobre JMeter. 
+
+Dependiendo de la distribución sobre la que realizar las configuraciones, se usará un comando u otro, los más típicos son los siguientes:
+
+\textbf{Ubuntu UFW}
+
+\begin{lstlisting}[language=bash]
+  $ ufw allow <port>/tcp
+\end{lstlisting}
+
+\textbf{IP Tables}
+
+\begin{lstlisting}[language=bash]
+  $ iptables -A INPUT -p tcp --dport <port> -j ACCEPT
+\end{lstlisting}
+
+\textbf{Firewall-cmd}
+
+\begin{lstlisting}[language=bash]
+  $ firewall-cmd --zone=public --add-port=<port>/tcp --permanent
+\end{lstlisting}
+
+Tratar con la complejidad de la configuración del firewall y de la red se vuelve realmente complejo y más cuando se dispone de una gran cantidad de nodos y éstos son heterogéneos en lo que a Sistema Operativo se refiere.
+
+\subsubsection{Despliegue de esclavos}
+
+Apache JMeter requiere de un orden de arranque específico, primero deben arrancarse los nodos esclavos con el siguiente comando:
+
+\begin{lstlisting}[language=bash]
+  $ ./jmeter-server -Dserver.rmi.localport=4445 -Dserver_port=1099 
+\end{lstlisting}
+
+Este comando debe ser ejecutado en cada uno de los nodos que vayan a ser empleados como esclavos. 
+
+\subsubsection{Arranque del nodo Maestro}
+
+Es necesario manejar y actualizar constantemente la lista de las direcciones de los nodos a los que que conectarse a través del nodo maestro para ejecutar un test de carga distribuido ya que es necesario especificar explícitamente los nodos remotos.\newline
+
+Para ejecutar un test de carga distribuido, una vez que la infraestructura previa está correctamente configurada, basta con ejecutar un comando similar al siguiente:
+
+\begin{lstlisting}[language=bash]
+  $ ./jmeter -n -t $TEST_PATH -R$REMOTES -Dserver.rmi.localport=60000 
+\end{lstlisting}
+
+\subsubsection{Publicación de resultados}
+
+Es posible especificar un \textbf{\textit{Listener}} durante la ejecución del nodo maestro junto al test para así poder exportar en tiempo real los resultados del test a un sistema externo como \textit{Apache Kafka}, \textit{ElasticSearch}, una base de datos entre otros.
