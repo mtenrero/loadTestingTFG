@@ -3,7 +3,7 @@
 
 \section{Golang}
 
-Go es un lenguaje de programación que se comenzó a desarrollar en 2007 \cite{Pike:2012:GG:2384716.2384720} y nació con el ideal de eliminar todos los obstáculos de la programación actual \cite{donovan2015go}, ya que desde hace varios años no había salido ningún lenguaje de programación de alta importancia. Se necesitaba que estuviese diseñado por completo, teniendo en cuenta factores de la informática actual, como la concurrencia o la rapidez en la compilación y en la codificación.
+Go es un lenguaje de programación que se comenzó a desarrollar en 2007 \cite{Pike:2012:GG:2384716.2384720} y nació con el ideal de eliminar todos los obstáculos de la programación actual \cite{donovan2015go}, ya que desde hace varios años no había sido desarrollado ningún lenguaje de programación de alta importancia. Se necesitaba que estuviese diseñado por completo, teniendo en cuenta factores de la informática actual, como la concurrencia o la rapidez en la compilación y en la codificación.
 
 Los orígenes de Go se remontan a los lenguajes Oberon 2 , C y Alef \cite{donovan2015go}. Nace como un proyecto de Google como solución para la codificación de soluciones complejas.
 
@@ -13,9 +13,9 @@ Como particular característica \cite{pike2009go}, Go es un lenguaje de programac
  
 \section{Dep: Go Dependency Management}
 
-Uno de los puntos fuertes de Go, es la gestión de dependencias durante la compilación \cite{pike2009go}. Sin embargo, de cara al desarrollador, por defecto, carece de un fichero a nivel global de proyecto para poder definir las dependencias del mismo y/o la versión con la que se desea trabajar, sino que se debe especificar a través de sentencias \textit{import} en los ficheros \textit{.go} del código. Además, para poder usar esas dependencias, es necesario que estén presentes en el \$GOPATH del sistema.\newline
+Uno de los puntos fuertes de \textit{Go}, es la gestión de dependencias durante la compilación \cite{pike2009go}. Sin embargo, de cara al desarrollador, por defecto, carece de un fichero a nivel global de proyecto para poder definir las dependencias del mismo y/o la versión con la que se desea trabajar, sino que se debe especificar a través de sentencias \textit{import} en los ficheros \textit{.go} del código. Además, para poder usar esas dependencias, es necesario que estén presentes en el \$GOPATH del sistema.\newline
 
-Dep nace como un experimento de Golang\footnote{https://github.com/golang/dep} , preparada para usar en producción, aunque sin llegar a ser la herramienta oficial de gestión de dependencias a nivel de proyecto/usuario. Emplea un fichero TOML en la raiz del proyecto, en él se indica la dependencia requerida, su versión e incluso la rama del control de versiones desde la cual obtener los paquetes. \newline
+\textit{Dep} nace como un experimento de \textit{Golang}\footnote{https://github.com/golang/dep} , preparada para usar en producción, aunque sin llegar a ser la herramienta oficial de gestión de dependencias a nivel de proyecto/usuario. Emplea un fichero TOML en la raíz del proyecto, en él se indica la dependencia requerida, su versión e incluso la rama del control de versiones desde la cual obtener los paquetes. \newline
 
 \section{Goa Design: Design-first Network framework}
 
@@ -29,7 +29,7 @@ OpenAPI es una especificación mantenida e ideada por la comunidad Open-Source en
 
 \section{DNS}
 
-Domain Name System es un sistema de nombrado de redes IP que se utiliza para resolver nombres en direcciones IP. El servicio de resolución de nombres puede tener diferentes tipos de registros. En la investigación del trabajo sólo se han usado registros de tipo \textbf{A}, los cuales traducen un nombre en una o varias direcciones IP, dependiendo de los registros A que tenga almacenados para un mismo nombre de dominio/subdominio.
+Domain Name System es un sistema de nombrado de redes IP que se utiliza para resolver nombres en direcciones IP. El servicio de resolución de nombres puede tener diferentes tipos de registros. En la investigación del trabajo sólo se han usado registros de tipo \textbf{A}, los cuales traducen un nombre en una o varias direcciones IP, dependiendo de los registros A que tenga almacenados para un mismo nombre de dominio o subdominio.
 
 \subsection{DNS Round-Robin}
 
@@ -98,7 +98,7 @@ Está dotado de interfaz de usuario gráfica desde la cual se pueden diseñar y eje
 
 JMeter se desarrolló pensando en un esquema de ejecución distribuida \textbf{Maestro} / \textbf{Esclavos}. Los esclavos deben estar accesibles antes de la ejecución del test a través del nodo maestro.\newline
 
-El lanzamiento del nodo Maestro requiere que se especique la lista de los nodos remotos que utilizar para lanzar el test de rendimiento.
+El lanzamiento del nodo Maestro requiere que se especifique la lista de los nodos remotos que utilizar para lanzar el test de rendimiento.
 
 
 \section{ElasticSearch}
@@ -131,12 +131,12 @@ Se caracteriza por ofrecer un modelo de pago por uso y por la capacidad de inter
 
 \section{Sistemas de Integración Continua}
 
-Un Sistema de Integración Continua, permite ejecutar con cada commit. sobre el Control de Versiones, ejecutar una serie de programas definidos en un pipeline, como puede ser la ejecución de tests unitarios para asegurarase de la regresión de la aplicación, es decir, que no se ha roto ninguna funcionalidad previo con los nuevos cambios introducidos. \newline
+Un Sistema de Integración Continua, permite ejecutar con cada commit. sobre el Control de Versiones, ejecutar una serie de programas definidos en un pipeline, como puede ser la ejecución de tests unitarios para asegurarse de la regresión de la aplicación, es decir, que no se ha roto ninguna funcionalidad previo con los nuevos cambios introducidos. \newline
 
 \subsection{TravisCI}
 
-TravisCI\footnote{https://travis-ci.com} es un servicio de Integración Continua ofrecido de manera gratuita para proyectos open-source de GitHub. Está preconfigurado para usarse de manera sencilla para una gran cantidad de lenguajes de programación así como para despliegues en servicios PAAS como es el caso de Heroku\footnote{https://www.heroku.com}. 
-Usa ficheros YAML para su configuración y todos los comandos y procesos indicados en los ficheros de configuración se ejecutan sobre contenedores completamente aislados. Ofrecen Docker-In-Docker de manera limitada, únicamante para construir imágenes y publicarlas en un registro.
+TravisCI\footnote{https://travis-ci.com} es un servicio de Integración Continua ofrecido de manera gratuita para proyectos open-source de GitHub. Está pre-configurado para usarse de manera sencilla para una gran cantidad de lenguajes de programación así como para despliegues en servicios PAAS como es el caso de Heroku\footnote{https://www.heroku.com}. 
+Usa ficheros YAML para su configuración y todos los comandos y procesos indicados en los ficheros de configuración se ejecutan sobre contenedores completamente aislados. Ofrecen Docker-In-Docker de manera limitada, únicamente para construir imágenes y publicarlas en un registro.
 
 \subsection{Jenkins}
 
