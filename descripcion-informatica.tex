@@ -315,6 +315,12 @@ Por otra parte, para el middleware, también se proporciona un fichero \textit{do
 
 \subsection{Service Discovery}
 
+Para el descubrimiento de servicios, como se ha avanzado en algún párrafo anterior, se ha desarrollado una mínima aplicación \textit{Go} que expone una API REST sencilla. Esta aplicación aprovecha el enrutado interno de los contenedores de los servicios docker que estén configurados con el algoritmo DNS RR.\newline
+
+Una vez que se ha realizado la consulta al servidor de nombres, se parsea la información y se devuelve en formato \textit{CSV}, es decir, en valores separados por comas, ya que es el formato que JMeter requiere para especificar los nodos remotos y es muy fácilmente iterable por cualquier script para así poder emplear los datos con futuras herramientas.\newline
+
+El descubrimiento de servicios también es empleado en el algoritmo interno de orquestación del middleware, ya que éste para asegurarse de que los contenedores han sido correctamente inicializados, realiza peticiones asíncronamente con una espera activa hasta que se recibe la cantidad deseada de contenedores a ser desplegados. Y una vez que se puede acceder a dichos contenedores, si el usuario lo ha especificado, se procede a ejecutar el comando que se asegura de la disponibilidad de los contenedores desplegados a través de peticiones tcp o udp.
+
 \section{Integración Continua}
 \label{sec:integracion-continua}
 
