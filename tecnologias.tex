@@ -17,11 +17,17 @@ Uno de los puntos fuertes de \textit{Go}, es la gestión de dependencias durante 
 
 \textit{Dep} nace como un experimento de \textit{Golang}\footnote{https://github.com/golang/dep} , preparada para usar en producción, aunque sin llegar a ser la herramienta oficial de gestión de dependencias a nivel de proyecto/usuario. Emplea un fichero TOML en la raíz del proyecto, en él se indica la dependencia requerida, su versión e incluso la rama del control de versiones desde la cual obtener los paquetes. \newline
 
+Para conseguir la capacidad de gestión de las versiones de dependencias a nivel de proyecto, dep descarga todas las dependencias en el directorio local \textit{vendor} para que estén disponibles en el propio proyecto, al estilo del directorio \textit{node\_modules} en el caso de NodeJS.\newline
+
+Esta distribución de ficheros evita al compilador de \textit{Go} tener que buscar en el \$GOPATH las dependencias necesarias.
+
 \section{Goa Design: Design-first Network framework}
 
 Goa\footnote{https://goa.design} es un framework completo para construir microservicios en Go que invierte la forma de construir APIs web completamente. Posee generación automática de código y documentación. \newline
 
-Es un framework enfocado al diseño de la API en primer lugar, y es lo que hace a este framework único. Posee su propio lenguaje DSL (lenguaje descriptivo) en el que antes de codificar, obliga al programador a pensar en el diseño de la API, ya que esta debe ser definida en un primer lugar. Permite definir desde el endpoint, el contenido que consumirá y los parámetros que recibirá.
+Es un framework enfocado al diseño de la API en primer lugar, y es lo que hace a este framework único. Posee su propio lenguaje DSL (lenguaje descriptivo) en el que antes de codificar, obliga al programador a pensar en el diseño de la API, ya que esta debe ser definida en un primer lugar. Permite definir desde el endpoint, el contenido que consumirá y los parámetros que recibirá.\newline
+
+Dispone de un comando generador, \textit{goagen}, que produce todo el código necesario a partir de la descripción proporcionada en los ficheros de definición. No está completamente integrado con \textit{dep} y para el correcto funcionamiento del comando \textit{goagen} se requiere que no exista la carpeta \textit{vendor}.
 
 \section{OpenAPI Specification}
 
@@ -33,7 +39,7 @@ Domain Name System es un sistema de nombrado de redes IP que se utiliza para res
 
 \subsection{DNS Round-Robin}
 
-DNS Round-Robin es un algoritmo de selección de IP, en el que con cada petición que realiza el usuario, se obtiene una lista completa de todas las direcciones IP registradas en el servidor de nombres ordenada de tal forma que nunca recibe la misma IP, realizando, de esta manera, labores de balanceador de carga.
+DNS Round-Robin es un algoritmo de selección de IP, en el que con cada petición que realiza el usuario, se obtiene una lista completa de todas las direcciones IP registradas en el servidor de nombres ordenada de tal forma que nunca recibe la misma dirección, realizando, de esta manera, realiza labores de balanceador de carga.
 
 Docker implementa este algoritmo de forma alternativa en su DNS interno, y el desarrollador puede elegir si desea operar con DNS Round Robin o con \textit{Routing Mesh}, balanceo de carga interno, donde el nombre es resuelto con una única IP Virtual de manera no determinista.\newline
 
@@ -45,11 +51,11 @@ Los contenedores son un nuevo tipo de virtualización ligera de Sistemas Operativ
 
 \subsection{LXC: Linux Containers}
 
-LXC es un tipo de virtualización basada en contenedores, usa el espacio de nombres de kernel y cgroups para asegurar el aislamiento de los contenedores, aunque los contenedores comparten el kernel con el Sistema Operativo del host \cite{ContainersComparison}.
+LXC es un tipo de virtualización basada en contenedores, usa el espacio de nombres de kernel y cgroups para asegurar el aislamiento de los contenedores, aunque comparten el kernel con el Sistema Operativo del host \cite{ContainersComparison}.
 
 \subsection{Docker}
 
-Docker añade una capa para gestionar las redes de los contenedores dotándolos de una IP propia y el sistema de ficheros a LXC. Permite especificar imágenes de contenedores autocontenidas y gestionar el ciclo de vida de ellos. 
+Docker añade una capa para gestionar las redes de los contenedores dotándolos de una IP propia y sistema de ficheros a LXC. Permite especificar imágenes de contenedores autocontenidas y gestionar el ciclo de vida de los mismos. 
 \cite{containerVsHyper} \cite{fromLXCtoKubernetes}. Introduce un modelo cliente-servidor, siendo el demonio de Docker en el host el responsable de la comunicación con los contenedores \cite{ContainersComparison} \newline 
 
 Docker ofrece además un repositorio o registro donde almacenar estas imágenes de los contenedores para que estén disponibles para su uso

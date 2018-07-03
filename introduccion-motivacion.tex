@@ -15,14 +15,12 @@ En términos de calidad de software, a la hora de realizar un test, se tiene muy 
 
 Normalmente se sitúan en la cima esta pirámide los tests de sistema o End-To-End (E2E) ya que el coste de éstos es muy elevado al requerir que todos los componentes de la aplicación se encuentren operativos en el momento de realización de las pruebas y al ser más frágiles. Los test de rendimiento se encuentran justo en esta cima.  
 
-El análisis del rendimiento que ofrece una aplicación es crucial para poder comprobar que ésta escala de una manera apropiada con diferentes cargas de trabajo. Normalmente, es un aspecto que se suele olvidar en las etapas iniciales del desarrollo, ya que es un factor que suele preocupar más en aplicaciones que ya tienen una considerable carga.
+El análisis del rendimiento de una aplicación es crucial para poder comprobar que ésta escala de una manera apropiada con diferentes cargas de trabajo. Normalmente, es un aspecto que se suele olvidar en las etapas iniciales del desarrollo, ya que es un factor que suele preocupar más en aplicaciones que ya tienen una carga considerable.
 
-No solo es una etapa relegada debido a que no suele ser un factor preocupante en las primeras iteraciones del desarrollo, sino que también resulta complicado el establecer una infraestructura para poder ejecutar, y sobre todo, mantener este tipo de tests.
+No sólo es una etapa relegada debido a que no suele ser un factor preocupante en las primeras iteraciones del desarrollo, sino que también resulta complicado el establecer una infraestructura para poder ejecutar, y sobre todo, mantener este tipo de tests.
 
 
-Este trabajo cubre la realización de una herramienta de ayuda en el proceso del análisis de rendimiento de cualquier aplicación. Pretende ofrecer una manera sencilla de ejecutar estos test de manera automática y distribuida sin tener que preocuparse de la infraestructura subyacente necesaria. 
-
-Normalmente, con los test de rendimiento se pretende simular una gran carga de trabajo sobre la aplicación y esto se traduce en muchas conexiones simultáneas a la misma, y para ello, se necesitan diversos nodos para poder distribuir esta simulación de carga. 
+Este trabajo cubre el desarrollo de una herramienta que ayude en el proceso del análisis de rendimiento de cualquier aplicación. Pretende ofrecer una manera sencilla de ejecutar estos test de manera automática y distribuida sin tener que preocuparse de la infraestructura subyacente necesaria, ya que normalmente, con los test de rendimiento se pretende simular una gran carga de trabajo sobre la aplicación y esto se traduce en muchas conexiones simultáneas a la misma, y para ello, se necesitan diversos nodos para poder distribuir esta simulación de la carga. 
 
 
 \clearpage
@@ -39,7 +37,7 @@ Este hecho me ha permitido probar en primera línea los avances sobre mi trabajo 
 
 \section{Despliegue tradicional de Apache JMeter}
 
-Apache JMeter tiene diversos modos de funcionamiento, ya que ofrece dos interfaces, una gráfica y otra por línea de comandos. Para aprovechar varios nodos y poder lanzar un test de carga de forma distribuida, es necesario ejecutar la aplicación en modo nodo esclavo en cada uno de los nodos remotos en los que se va a ejecutar el test.\newline
+Apache JMeter tiene diversos modos de funcionamiento, ya que ofrece dos interfaces, una gráfica y otra por línea de comandos. Para aprovechar varios nodos y poder lanzar un test de carga de forma distribuida, es necesario ejecutar la aplicación en modo esclavo en cada uno de los nodos remotos en los que se va a ejecutar el test.\newline
 
 Por otro lado, estos nodos deben estar visibles entre sí dentro de la red, lo que implica una configuración manual del firewall para poder así abrir los puertos necesarios.\newline
 
