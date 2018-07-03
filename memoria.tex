@@ -29,12 +29,52 @@
 \usepackage{url}
 %\usepackage[dvipdfm]{graphicx}
 \usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
 \usepackage{float}  %% H para posicionar figuras
 \usepackage[nottoc, notlot, notlof, notindex]{tocbibind} %% Opciones de índice
 \usepackage{listings} %% Bloques de código
 \usepackage{color} %% Paquete de color para listings
 \usepackage{soul} %% Formato texto
 \usepackage{dirtree} %% Tree de ficheros
+
+\newcommand\YAMLcolonstyle{\color{red}\mdseries}
+\newcommand\YAMLkeystyle{\color{black}\bfseries}
+\newcommand\YAMLvaluestyle{\color{blue}\mdseries}
+
+\makeatletter
+
+% here is a macro expanding to the name of the language
+% (handy if you decide to change it further down the road)
+\newcommand\language@yaml{yaml}
+
+\expandafter\expandafter\expandafter\lstdefinelanguage
+\expandafter{\language@yaml}
+{
+  keywords={true,false,null,y,n},
+  keywordstyle=\color{darkgray}\bfseries,
+  basicstyle=\YAMLkeystyle,                                 % assuming a key comes first
+  sensitive=false,
+  comment=[l]{\#},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\YAMLvaluestyle\ttfamily,
+  moredelim=[l][\color{orange}]{\&},
+  moredelim=[l][\color{magenta}]{*},
+  moredelim=**[il][\YAMLcolonstyle{:}\YAMLvaluestyle]{:},   % switch to value style at :
+  morestring=[b]',
+  morestring=[b]",
+  literate =    {---}{{\ProcessThreeDashes}}3
+                {>}{{\textcolor{red}\textgreater}}1     
+                {|}{{\textcolor{red}\textbar}}1 
+                {\ -\ }{{\mdseries\ -\ }}3,
+}
+
+% switch to key style at EOL
+\lst@AddToHook{EveryLine}{\ifx\lst@language\language@yaml\YAMLkeystyle\fi}
+\makeatother
+
+\newcommand\ProcessThreeDashes{\llap{\color{cyan}\mdseries-{-}-}}
+
 
 \graphicspath{ {./img/} }
 
@@ -218,7 +258,7 @@ mi familia / mi abuelo / mi abuela}
 \label{app:manual}
 
 \appendixname{b}
-\chapter{Fragmentos de código}
+\chapter{Imágenes Docker}
 \label{code-snippets}
 
 \definecolor{pblue}{rgb}{0.13,0.13,1}
@@ -226,7 +266,7 @@ mi familia / mi abuelo / mi abuela}
 \definecolor{pred}{rgb}{0.9,0,0}
 \definecolor{pgrey}{rgb}{0.46,0.45,0.48}
 
-\lstset{language=Java,
+\lstset{language=yaml,
   showspaces=false,
   showtabs=false,
   breaklines=true,
@@ -240,53 +280,43 @@ mi familia / mi abuelo / mi abuela}
   moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%}
 }
 
-\begin{lstlisting}[language=Java, caption=Jenkisfile CI Docker-in-Docker]
-pipeline {
+\begin{lstlisting}[language=yaml, caption=ATQ docker-compose.yaml]
+version: 3.3
 
-    agent {
-        docker {
-            image 'tenrero/golang-dep-alpine:1.10.2'
-            reuseNode true
-            args '-it -v /var/run/docker.sock:/var/run/docker.sock -v $WORKSPACE:/tmp/app'
-        }
-    }
+services:
+    atq:
+        image: tenrero/atq
+        tty: true
+        volumes:
+            - gluster:/gluster:rw
+            - /var/run/docker.sock:/var/run/docker.sock
+        ports:
+            - "8080:8080"
+        deployment:
+            mode: global
+            placement:
+                constraints: [node.role == manager]
+volumes:
+    gluster:
 
-    stages {        
-        stage('Prepare Environment') {
-            steps {
-                sh 'echo $GOPATH'
-                sh 'mkdir -p /go/src/github.com/mtenrero/'
-                sh 'ln -s /tmp/app /go/src/github.com/mtenrero/ATQ-Director'
-                sh 'ls -a /go/src/github.com/mtenrero/ATQ-Director'
-                sh 'go get -u github.com/golang/dep/cmd/dep'
-                sh 'go get -u github.com/golang/lint/golint'
-                sh 'go get -u github.com/tebeka/go2xunit'
-                sh 'go get -u golang.org/x/tools/cmd/cover'
-                sh 'go get -u github.com/mattn/goveralls'
-            }
-        }
-
-        stage('Download Vendor') {
-            steps {
-                sh 'cd /go/src/github.com/mtenrero/ATQ-Director && dep ensure'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                sh 'cd /go/src/github.com/mtenrero/ATQ-Director && go test ./... -race -coverprofile=coverage.txt -covermode=atomic'
-            }
-        }
-
-        stage('Build') {
-            steps {
-                sh 'cd /go/src/github.com/mtenrero/ATQ-Director && ./build.sh'
-            }
-        }
-    }
-    
-}
 \end{lstlisting}
 
+\clearpage
 
+\begin{lstlisting}[caption=ATQ Dockerfile]
+\end{lstlisting}
+FROM centos
+
+LABEL MAINTAINER="Marcos Tenrero"
+
+COPY ./releases/atq-director-linux-amd64 /atq/atq-amd64
+COPY controller-config.docker.yaml /controller-config.yaml
+
+RUN mkdir -p /gluster/storage
+
+EXPOSE 8080
+
+RUN cd /atq
+
+ENTRYPOINT [ "/atq/atq-amd64" ]
 \end{document}
