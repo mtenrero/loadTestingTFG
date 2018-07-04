@@ -2,9 +2,43 @@
 \chapter{Conclusiones y trabajos futuros}
 \label{chap:conclusiones-trabajos-futuros}
 
-\section{Resultados de lanzamiento con ATQ}
+\section{Resultados en tiempo real de lanzamiento con ATQ}
 
+Para visualizar de forma más clara los resultados de los tests de carga, se puede configurar un \textit{Backend Listener} en el \textit{Test Plan} de Apache JMeter para que retransmita los resultados a un sistema externo como \textit{ElasticSearch} o \textit{InfluxDB}\footnote{https://www.influxdata.com}.\newline
 
+Yo he decidido emplear ElasticSearch, y para ello, hay que añadir un plugin\footnote{https://github.com/delirius325/jmeter-elasticsearch-backend-listener} de JMeter al directorio \textit{./lib/ext} de la instalación de JMeter. (La imagen de JMeter creada para el uso con \gls{ATQ} ya lo incluye)\newline
+
+Además, también es necesario configurar una serie de parámetros, como la url donde se expone la API de ElasticSearch o el índice donde guardar los resultados.\newline
+
+Una vez que se ha configurado correctamente el \textit{Backend Listener} y se ejecuta el test, es posible consultar directamente a ElasticSearch por el estado del nuevo índice especificado\newline
+
+\begin{lstlisting}[language=yaml]
+  >HTTP GET elasticsearch:9200/test
+\end{lstlisting}
+
+O también se pueden consultar los contenidos volcados por JMeter sobre el índice:\newline
+  
+\begin{lstlisting}[language=yaml]
+  >HTTP GET elasticsearch:9200/test/_search
+\end{lstlisting}
+
+Lo cual devolverá todos los registros de los que disponga en ese índice en formato JSON. (Apéndice B.3)
+
+Para visualizarlo de una manera más cómoda, se puede conectar con un panel visualizador como \textit{Grafana}\footnote{https://grafana.com} o \textit{Kibana}\footnote{https://www.elastic.co/products/kibana}. Para los ejemplos, he utilizado Grafana conectado a ElasticSearch:
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{grafana1}
+    \caption{Snapshot Grafana Elastic JMeter 1}
+    \label{fig:grafana1}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{grafana2}
+    \caption{Snapshot Grafana Elastic JMeter 2}
+    \label{fig:grafana2}
+\end{figure}
 
 \section{Ampliación del Middleware}
 
