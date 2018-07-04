@@ -93,8 +93,6 @@
 \begin{document}
 
 \renewcommand{\refname}{Bibliografía}  %% Renombrando
-\renewcommand{\appendixname}{Apéndice}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PORTADA
 
@@ -260,13 +258,14 @@ y a los dos más peludos de la casa, Maya y Tasser}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % APÉNDICE(S) %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+
 \input{acrnonimos.tex}
 \cleardoublepage
 %Print the glossary
 \printglossaries
 
 \cleardoublepage
-\appendix
 \chapter{Manual de usuario}
 \label{app:manual}
 
@@ -368,6 +367,10 @@ ENTRYPOINT [ "/atq/atq-amd64" ]
 	"ThreadName":"Grupo de Hilos 1-12","SampleLabel":"Login Page"}}
 \end{lstlisting}
 
+\cleardoublepage
+\chapter{Documentación Swagger OpenAPI}
+\label{swagger}
+
+\includepdf[pages=-]{swagger.pdf}
+
 \end{document}
-
-
