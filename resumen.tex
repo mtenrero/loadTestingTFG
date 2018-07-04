@@ -1,15 +1,13 @@
 \chapter*{Resumen}
-%\addcontentsline{toc}{chapter}{Resumen} % si queremos que aparezca en el índice
+\addcontentsline{toc}{chapter}{Resumen} % si queremos que aparezca en el índice
 \markboth{RESUMEN}{RESUMEN} % encabezado
 
-Aquí viene un resumen del proyecto. Ha de constar de tres o cuatro párrafos, donde se presente de manera clara y concisa de qué va el proyecto. 
-Han de quedar respondidas las siguientes preguntas:
+Los test de rendimiento requieren de una gran potencia de cómputo y una gran capacidad de red para poder simular de manera satisfactoria cargas de gran tamaño. Para ello es común ejecutar estos test de rendimiento apoyándose en un gran número de nodos.\newline
 
-\begin{itemize}
-  \item ¿De qué va este proyecto? ¿Cuál es su objetivo principal?
-  \item ¿Cómo se ha realizado? ¿Qué tecnologías están involucradas?
-  \item ¿En qué contexto se ha realizado el proyecto? ¿Es un proyecto
-dentro de un marco general?
-\end{itemize}
+No existen soluciones reales que simplifiquen la tediosa configuración de cada uno de los nodos de una manera específica para la ejecución de tests.\newline
 
-Lo mejor es escribir el resumen al final.
+El proyecto ofrece una alternativa, un middleware sobre Docker Swarm que permite aprovechar una infraestructura cloud existente para la orquestación de los contenedores especificados que actuarán como nodos remotos para los citados tests de rendimiento. Añadiendo una capa de abstracción no sólo a Docker y a la gestión de contenedores, sino a toda la capa de red, ya que gestiona y configura automáticamente las redes necesarias para aislar múltiples ejecuciones entre sí y entre el sistema base del host.\newline
+
+Se ha desarrollado en \textit{Go}, ofreciendo así la posibilidad de ser desplegado sobre diferentes Sistemas Operativos.\newline
+
+Aunque se ha diseñado teniendo en cuenta los test de carga, y en concreto basándose en la herramienta Apache JMeter, no sólo puede ser empleado para dichos tests. Sino que es completamente compatible con cualquier despliegue que siga el modelo maestro / esclavos.

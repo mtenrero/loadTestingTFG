@@ -241,8 +241,8 @@ Se utiliza el paquete \textit{net} proporcionado por defecto por el lenguaje par
 Las únicas respuestas posibles por esta API son: \newline
 
 \begin{itemize}
-	\item \textbf{gls{HTTP} 200:OK} Lista con las direcciones encontradas.
-	\item \textbf{gls{HTTP} 204: No Content} No se han resuelto nombres para el dominio especificado.
+	\item \textbf{\gls{HTTP} 200:OK} Lista con las direcciones encontradas.
+	\item \textbf{\gls{HTTP} 204: No Content} No se han resuelto nombres para el dominio especificado.
 \end{itemize}
 
 La aplicación se ha dockerizado y publicado tanto en GitHub\footnote{https://github.com/mtenrero/dnsrr-discovery-api} como en DockerHub\footnote{https://hub.docker.com/r/tenrero/dnsrr-discovery-api/} con una construcción automatizada, de tal manera, que con cada actualización sobre el repositorio, se construye automáticamente una nueva imagen y se publica en DockerHub para que esté disponible de forma automática para toda la comunidad.\newline
