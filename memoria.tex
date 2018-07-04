@@ -37,6 +37,11 @@
 \usepackage{soul} %% Formato texto
 \usepackage{dirtree} %% Tree de ficheros
 
+\usepackage{glossaries}
+\makeglossaries
+
+
+
 \newcommand\YAMLcolonstyle{\color{red}\mdseries}
 \newcommand\YAMLkeystyle{\color{black}\bfseries}
 \newcommand\YAMLvaluestyle{\color{blue}\mdseries}
@@ -244,13 +249,18 @@ mi familia / mi abuelo / mi abuela}
 % formato BibTeX. Prueba a buscar en http://scholar.google.com por referencias
 % y verás que lo puedes hacer de manera sencilla.
 % Más información: 
-% http://texblog.org/2014/04/22/using-google-scholar-to-download-bibtex-citations/
+% http://texblog.org/2014/04/22/using-google-scholar-to-download-bibtex-citations
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % APÉNDICE(S) %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{acrnonimos.tex}
+\cleardoublepage
+%Print the glossary
+\printglossaries
 
 \cleardoublepage
 \appendix

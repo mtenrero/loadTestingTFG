@@ -13,7 +13,7 @@ Dentro de esta etapa, existen diversos tipos de pruebas a realizar, pero este tr
 
 En términos de calidad de software, a la hora de realizar un test, se tiene muy en cuenta la pirámide de test, la cual pretende dar unas guías generales a tener en cuenta con respecto a la cantidad de test que se deberían desarrollar para un proyecto, teniendo en cuenta su complejidad de codificación y mantenimiento.
 
-Normalmente se sitúan en la cima esta pirámide los tests de sistema o End-To-End (E2E) ya que el coste de éstos es muy elevado al requerir que todos los componentes de la aplicación se encuentren operativos en el momento de realización de las pruebas y al ser más frágiles. Los test de rendimiento se encuentran justo en esta cima.  
+Normalmente se sitúan en la cima esta pirámide los tests de sistema o End-To-End (\gls{E2E}) ya que el coste de éstos es muy elevado al requerir que todos los componentes de la aplicación se encuentren operativos en el momento de realización de las pruebas y al ser más frágiles. Los test de rendimiento se encuentran justo en esta cima.  
 
 El análisis del rendimiento de una aplicación es crucial para poder comprobar que ésta escala de una manera apropiada con diferentes cargas de trabajo. Normalmente, es un aspecto que se suele olvidar en las etapas iniciales del desarrollo, ya que es un factor que suele preocupar más en aplicaciones que ya tienen una carga considerable.
 
@@ -108,4 +108,4 @@ Es posible especificar un \textbf{\textit{Listener}} durante la ejecución del no
 
 \subsubsection{Consideraciones adicionales: Cifrado de comunicaciones}
 
-Es común utilizar un cifrado SSL o TLS en las comunicaciones de red, y JMeter permite encriptar las comunicaciones entre los diferentes nodos con SSL\footnote{https://jmeter.apache.org/usermanual/remote-test.html\#setup\_ssl}. Esto requiere de la generación de certificados y de un almacén de claves, lo que dificulta, aun mas, el despliegue de un clúster de forma tradicional.
+Es común utilizar un cifrado \gls{SSL} o \gls{TLS} en las comunicaciones de red, y JMeter permite encriptar las comunicaciones entre los diferentes nodos con SSL\footnote{https://jmeter.apache.org/usermanual/remote-test.html\#setup\_ssl}. Esto requiere de la generación de certificados y de un almacén de claves, lo que dificulta, aun mas, el despliegue de un clúster de forma tradicional.
