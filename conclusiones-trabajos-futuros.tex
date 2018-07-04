@@ -2,7 +2,9 @@
 \chapter{Conclusiones y trabajos futuros}
 \label{chap:conclusiones-trabajos-futuros}
 
-\section{Comparativa lanzamiento ATQ vs tradicional}
+\section{Resultados de lanzamiento con ATQ}
+
+
 
 \section{Ampliación del Middleware}
 
@@ -15,6 +17,14 @@ Para ello, sería necesario crear imágenes específicas con los binarios de \gls{A
 \subsection{Integración con Jenkins}
 
 Por otro lado, se podría ampliar el proyecto creando un plugin específico para Jenkins para poder así definir de una manera declarativa sencilla los parámetros para una ejecución elástica de test de carga usando el middleware \gls{ATQ}.
+
+\subsection{Sistema de ficheros distribuidos interno}
+
+En la actualidad, es necesario que exista un sistema de compartición de ficheros subyacente como Samba o GlusterFS para que los ficheros de test proporcionados por el usuario estén disponibles en todos los nodos que conforman el clúster de Docker Swarm.\newline
+
+Sería interesante extender el middleware para que expongan un socket en cada nodo y poder replicar el fichero proporcionado del usuario a través de éstos sockets antes de enviarle al usuario la respuesta a su petición.\newline
+
+De esta manera se reducirían prácticamente a cero los requisitos para poder utilizar Automation Test Queue y se prescindiría del sistema externo de ficheros distribuidos.
 
 \subsection{Solución comercial}
 

@@ -1,0 +1,110 @@
+\section{Despliegue de ATQ}
+
+\subsection{Binarios}
+
+Ejecutar el binario apropiado para la plataforma:\newline
+
+\textbf{Windows}\newline
+
+\begin{lstlisting}[language=bash]
+  > ./atq-director-win_64.exe
+\end{lstlisting}  
+
+\textbf{Unix}\newline
+
+\begin{lstlisting}[language=bash]
+  $ chmod +x atq-director-linux_64
+  $ ./atq-director-linux_64
+\end{lstlisting}  
+
+
+\subsection{Docker}
+\subsubsection{Swarm Stack}
+
+Ejecutar el siguiente comando en un directorio que contenga el fichero \textit{docker-compose.yml} del Apéndice B.2
+
+\begin{lstlisting}[language=bash]
+  $ docker-compose up
+\end{lstlisting}  
+
+
+En caso de necesitar desplegarlo como servicio distribuido, usar el comando:
+
+
+\begin{lstlisting}[language=bash]
+  $ docker stack deploy --compose-file docker-compose-yml atq
+\end{lstlisting}  
+
+
+\section{Configuración de arranque}
+
+Durante el arranque del middleware ATQ, busca el fichero \textit{controller-config.yml} en el que se especifican una serie de configuraciones críticas para el middleware.\newline
+
+Es necesario que esté especificada la clave \textbf{port}, que define el puerto por el cual exponer la API REST y la clave \textbf{glusterpath}, que corresponde a la ruta del directorio compartido entre todos los nodos que conforman el cluster de Docker Swarm donde desplegar el middleware.\newline
+
+En caso de no existir dicho fichero, el middleware \textbf{no arrancará}
+
+\section{Subida de ficheros de test}
+
+Los ficheros de test han de subirse \textbf{antes} de lanzar una tarea sobre el middleware.\newline
+
+La API REST está diseñada para que únicamente acepte peticiones \textbf{POST} con \textit{multipart/form} en \textit{Request Header} que incluyan un parámetro \textit{file} de tipo \textit{File} y éste incluya un fichero con la extensión \textit{ZIP}.\newline
+
+En caso de no cumplir alguno de los requisitos anteriores, se devolverá un error de acuerdo a la especificación de la API que se puede consultar en los ficheros OpenAPI de Swagger.\newline
+
+Una petición de ejemplo tendría este aspecto:
+
+
+\begin{lstlisting}[language=bash]
+POST /api/databind/upload HTTP/1.1
+Host: localhost:8080
+Accept: application/atq.databind.upload+json
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Cache-Control: no-cache
+Postman-Token: c1a523b2-6a04-486c-b133-e8db47d6b3d1
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="filename.zip"
+Content-Type: 
+
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+\end{lstlisting} 
+
+\section{Creación de tarea de Test vía API}
+
+Una vez que se dispone de un fichero de test correctamente subido al  middleware y se ha anotado su identificador, se puede proceder a crear una tarea de test.\newline
+
+\textbf{Body}
+
+\begin{lstlisting}[language=bash]
+{
+  "delay": 2,
+  "master": {
+    "alias": "Coordinator",
+    "image": "tenrero/jmeterdistributed",
+    "fileid": "1530553166",
+    "environment":[
+		"MODE=master",
+		"TEST_PATH=/atq/data/abvetmadrid.jmx"
+	],
+    "replicas": 1,
+    "tty": true
+  },
+  "name": "jm11",
+  "waitCommand": {
+    "command": "sleep 4",
+    "expectedResult": "",
+    "timeout": 2
+  },
+  "worker": {
+    "alias": "Minions",
+    "image": "tenrero/jmeterdistributed",
+    "replicas": 3,
+    "environment":[
+		"MODE=node"
+	],
+    "tty": true
+  }
+}
+\end{lstlisting}
