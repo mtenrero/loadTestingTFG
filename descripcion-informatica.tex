@@ -131,7 +131,7 @@ Las variables de entorno que definirán el modo de operación del contenedor son l
 
 Aunque, la planificación de la herramienta se ha realizado con un enfoque bottom-up, el diseño de la misma va a ser expuesto utilizando el enfoque contrario, top-down, es decir, desde lo mas abstracto a lo más específico.
 
-\subsection{API \gls{REST} y modelo de datos}
+\subsection{API REST y modelo de datos}
 
 El diseño de la interfaz con la que trabajará el usuario que utilice esta aplicación ha sido diseñada meticulosamente utilizando el framework de Go \textit{GoaDesign}, el cual, obliga a definir el diseño de la API con un lenguaje declarativo propio antes de la implementación.\newline
 
@@ -282,6 +282,8 @@ En el siguiente diagrama se expone un esquema del proceso general de orquestació
     \label{fig:orchestration_steps}
 \end{figure}
 
+La documentación de la implementación del proyecto se puede consultar en \textit{GoDoc}\footnote{https://godoc.org/github.com/mtenrero/ATQ-Director/dockerMiddleware}
+
 \subsection{Almacenamiento de datos}
 
 Se ha utilizado por simplicidad el paquete \textit{buntdb}\footnote{https://github.com/tidwall/buntdb} para el almacenamiento de datos del framework. Se basa en un esquema clave/valor, siendo compatible con otras soluciones de almacenamiento de datos distribuidos similares, como etcd\footnote{https://coreos.com/etcd/}.\newline
@@ -303,7 +305,9 @@ Para conseguir un funcionamiento similar a objetos con múltiples propiedades, \t
 
 Por ello, se ha configurado un índice para permitir obtener múltiples propiedades indicando un identificador de tarea, definiendo el patrón de almacenamiento de datos \textit{task:*:} \newline
 
-El uso de un almacenamiento de datos es necesario para almacenar el estado actual de la tarea y los identificadores de los directorios bindados a cada servicio. Como restricción se ha implementado un control de duplicidades, para asegurarse de que no se desplieguen dos tareas con el mismo identificador.
+El uso de un almacenamiento de datos es necesario para almacenar el estado actual de la tarea y los identificadores de los directorios bindados a cada servicio. Como restricción se ha implementado un control de duplicidades, para asegurarse de que no se desplieguen dos tareas con el mismo identificador.\newline
+
+La documentación del paquete se puede encontrar fácilmente en \textit{GoDoc}\footnote{https://godoc.org/github.com/mtenrero/ATQ-Director/persistance}
 
 \subsection{Imágenes Docker}
 
