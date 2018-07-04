@@ -88,7 +88,7 @@ El proyecto está íntegramente codificado en \textit{Go}. Sigue una estructura tí
 .1 \textbf{dockerMiddleware} Middleware Docker.
 .1 \textbf{http}.
 .2 \textbf{design} Diseño API REST con el DSL de \textit{Goa}.
-.1 \textbf{persistance} Implementación persistencia datos.
+.1 \textbf{persistence} Implementación persistencia datos.
 .1 \textbf{swagger} Especificación OpenAPI autogenerada.
 .1 \textbf{tool} Helper autogenerado para trabajar con la API.
 .1 \textbf{types} Mapeado tipos Goa/Middleware.
@@ -102,7 +102,7 @@ En el esquema anteriormente presentado, se puede apreciar que la implementación 
 
 En la raíz del directorio del proyecto se pueden apreciar unos ficheros con extensión \textit{.go}, contienen los controladores para cada endpoint definido con el DSL de \textit{Goa} en el paquete \textit{http/design}. Se genera la estructura básica en la primera ejecución de \textit{goagen} y a partir de ahí se integra la implementación propia de cada endpoint.\newline
 
-El paquete \textbf{persistance} contiene la implementación de un almacén de datos clave/valor muy básico que se utiliza para el almacenamiento de tareas planificadas y las características definidas por el usuario.\newline
+El paquete \textbf{persistence} contiene la implementación de un almacén de datos clave/valor muy básico que se utiliza para el almacenamiento de tareas planificadas y las características definidas por el usuario.\newline
 
 Para gestionar la configuración externalizada a través de ficheros YAML, se ha creado el paquete \textbf{configLoader}. Es responsable de la carga de parámetros desde el fichero especificado.\newline
 

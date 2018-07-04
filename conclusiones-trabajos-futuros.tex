@@ -2,6 +2,31 @@
 \chapter{Conclusiones y trabajos futuros}
 \label{chap:conclusiones-trabajos-futuros}
 
-Me gustaría hablar de la integración completa con OS Windows, otros tipos de despliegue como en AWS de manera nativa, otros modelos diferentes a la arquitectura Master/Workers...
+\section{Comparativa lanzamiento ATQ vs tradicional}
 
-Quizás de una interfaz web completa con Angular o similar... 
+\section{Ampliación del Middleware}
+
+\subsection{Sistemas Operativos Windows}
+
+La integración completa con Sistemas Operativos Windows aún no es posible, ya que las imágenes de ATQ para un despliegue basado en stacks de Swarm y del descubrimiento de servicios, están basados en imágenes linux, como CentOS 7\footnote{https://centos.org} o Alpine Linux\footnote{https://alpinelinux.org}. Esto implica que no se pueda desplegar ATQ en sistemas Windows que utilicen contenedores Windows nativos, aunque sí debería poderse desplegar ATQ sobre sistemas Windows que operen con contenedores Linux.\newline
+
+Para ello, sería necesario crear imágenes específicas con los binarios de ATQ y del descubridor de servicios con una imagen de contenedor basada en Windows como \textit{nanoserver}\footnote{https://hub.docker.com/r/microsoft/nanoserver/}.
+
+\subsection{Integración con Jenkins}
+
+Por otro lado, se podría ampliar el proyecto creando un plugin específico para Jenkins para poder así definir de una manera declarativa sencilla los parámetros para una ejecución elástica de test de carga usando el middleware ATQ.
+
+\subsection{Solución comercial}
+
+Una solución empresarial sería posible creando un portal web con una serie de características como autenticación con Kerberos o LDAP y multi-tenancy de usuarios para poder así ofrecer una solución SAAS de la herramienta y ofrecerla a través de algún tipo de suscripción.\newline
+
+Para ello sería necesario desplegar ATQ sobre una infraestructura cloud como Amazon Web Services\footnote{https://aws.amazon.com}, Azure\footnote{https://azure.microsoft.com} o Google Cloud Platform\footnote{https://cloud.google.com} usando el orquestador Kubernetes\footnote{https://kubernetes.io} con el objetivo de poder escalar de una manera sencilla la infraestructura en base a la demanda de los usuarios.\clearpage
+
+Una posible arquitectura sería la siguiente:
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{saas_arch}
+    \caption{Arquitectura posible para una solución comercial SAAS}
+    \label{fig:saas_arch}
+\end{figure}
