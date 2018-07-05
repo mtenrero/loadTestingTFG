@@ -2,6 +2,12 @@
 \chapter{Conclusiones y trabajos futuros}
 \label{chap:conclusiones-trabajos-futuros}
 
+La utilización del middleware \gls{ATQ} reduce drásticamente el tiempo de setup de la infraestructura necesaria para ejecutar tests de manera elástica. Ya que con unos sencillos comandos es posible desplegarla de una manera rápida, transparente y eficiente.\newline
+
+En la siguiente sección se describe un posible uso real del middleware junto con algunas herramientas de apoyo que sirven de ayuda para conocer la salud de una aplicación web basándose en la cantidad de conexiones concurrentes a la misma. Y es aquí donde ATQ toma protagonismo. Porque cuando se tiene una determinada carga de trabajo en una aplicación en producción con un gran número de usuarios, es complicado conseguir reproducir o superar esta carga de trabajo en un entorno de pruebas, debido a los requisitos de hardware necesario.\newline
+
+Debido a las especificaciones técnicas de Docker Swarm, con una limitada configuración de las políticas de seguridad de una nube pública como Amazon Web Services o Google Cloud Platform se podría conformar un clúster híbrido, público o privado bajo demanda para adaptarse realmente al crecimiento de una aplicación en producción. Ya que el despliegue del middleware ATQ es realmente sencillo tanto en Docker Swarm por medio de Stacks como en Kubernetes, gracias a las funciones experimentales de compatibilidad con ficheros \textit{docker-compose}, nativos de Docker Swarm.
+
 \section{Resultados en tiempo real de lanzamiento con ATQ}
 
 Para visualizar de forma más clara los resultados de los tests de carga, se puede configurar un \textit{Backend Listener} en el \textit{Test Plan} de Apache JMeter para que retransmita los resultados a un sistema externo como \textit{ElasticSearch} o \textit{InfluxDB}\footnote{https://www.influxdata.com}.\newline
@@ -40,13 +46,13 @@ Para visualizarlo de una manera más cómoda, se puede conectar con un panel visua
     \label{fig:grafana2}
 \end{figure}
 
-\section{Ampliación del Middleware}
+\section{Ampliación del Middleware}\clearpage
 
 \subsection{Sistemas Operativos Windows}
 
-La integración completa con Sistemas Operativos Windows aún no es posible, ya que las imágenes de \gls{ATQ} para un despliegue basado en stacks de Swarm y del descubrimiento de servicios, están basados en imágenes linux, como CentOS 7\footnote{https://centos.org} o Alpine Linux\footnote{https://alpinelinux.org}. Esto implica que no se pueda desplegar \gls{ATQ} en sistemas Windows que utilicen contenedores Windows nativos, aunque sí debería poderse desplegar \gls{ATQ} sobre sistemas Windows que operen con contenedores Linux.\newline
+La integración completa con Sistemas Operativos Windows aún no es posible, ya que las imágenes de \gls{ATQ} para un despliegue basado en stacks de Swarm y del descubrimiento de servicios, están basados en imágenes linux, como CentOS 7\footnote{https://centos.org} o Alpine Linux\footnote{https://alpinelinux.org}. Esto implica que no se pueda desplegar \gls{ATQ} en sistemas Windows que utilicen contenedores Windows nativos, aunque sí es posible desplegar \gls{ATQ} sobre sistemas Windows que operen con contenedores Linux.\newline
 
-Para ello, sería necesario crear imágenes específicas con los binarios de \gls{ATQ} y del descubridor de servicios con una imagen de contenedor basada en Windows como \textit{nanoserver}\footnote{https://hub.docker.com/r/microsoft/nanoserver/}.
+Para una integración completa, sería necesario crear imágenes específicas con los binarios de \gls{ATQ} y del descubridor de servicios con una imagen de contenedor basada en Windows como \textit{nanoserver}\footnote{https://hub.docker.com/r/microsoft/nanoserver/}.
 
 \subsection{Integración con Jenkins}
 

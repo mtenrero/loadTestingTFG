@@ -2,12 +2,12 @@
 \addcontentsline{toc}{chapter}{Resumen} % si queremos que aparezca en el índice
 \markboth{RESUMEN}{RESUMEN} % encabezado
 
-Los test de rendimiento requieren de una gran potencia de cómputo y una gran capacidad de red para poder simular de manera satisfactoria cargas de gran tamaño. Para ello es común ejecutar estos test de rendimiento apoyándose en un gran número de nodos.\newline
+Los test de rendimiento requieren de una gran potencia de cómputo y una gran capacidad de red para poder simular de manera satisfactoria cargas de gran tamaño. Para ello, es común ejecutar estos test de rendimiento apoyándose en un gran número de nodos.\newline
 
-No existen soluciones reales que simplifiquen la tediosa configuración de cada uno de los nodos de una manera específica para la ejecución de tests.\newline
+No existen soluciones reales que simplifiquen la tediosa tarea configuración de cada uno de los nodos de una manera específica para la ejecución de tests.\newline
 
 El proyecto ofrece una alternativa, un middleware sobre Docker Swarm que permite aprovechar una infraestructura cloud existente para la orquestación de los contenedores especificados que actuarán como nodos remotos para los citados tests de rendimiento. Añadiendo una capa de abstracción no sólo a Docker y a la gestión de contenedores, sino a toda la capa de red, ya que gestiona y configura automáticamente las redes necesarias para aislar múltiples ejecuciones entre sí y entre el sistema base del host.\newline
 
 Se ha desarrollado en \textit{Go}, ofreciendo así la posibilidad de ser desplegado sobre diferentes Sistemas Operativos.\newline
 
-Aunque se ha diseñado teniendo en cuenta los test de carga, y en concreto basándose en la herramienta Apache JMeter, no sólo puede ser empleado para dichos tests. Sino que es completamente compatible con cualquier despliegue que siga el modelo maestro / esclavos.
+Aunque se ha diseñado teniendo en cuenta los test de carga, y en concreto basándose en la herramienta Apache JMeter, no sólo puede ser empleado para dichos tests. Sino que es completamente compatible con cualquier despliegue que se base en un modelo de  maestro / esclavos.
