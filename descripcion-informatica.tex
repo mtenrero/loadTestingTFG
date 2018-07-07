@@ -42,7 +42,7 @@ Durante el análisis de cómo afrontar esta problemática, surgieron dos enfoques t
 
 Este enfoque\footnote{https://github.com/mtenrero/AutomationTestQueue} surge tomando como referencia la mayoría de herramientas para service discovery usadas en Docker y en Kubernetes como Consul.io\footnote{https://www.consul.io/}.
 
-Cada contenedor a desplegar, tiene una imagen modificada, la cual, antes de ejecutar el entrypoint predefinido en la imagen, ejecuta una pequeña aplicación, la cual, obtiene la IP virtual del contenedor y se la comunica al agente controlador, el cual lleva un listado de todas los contenedores descubiertos.
+Cada contenedor a desplegar, tiene una imagen modificada, la cual, antes de ejecutar el entrypoint predefinido en la imagen, ejecuta una pequeña aplicación, y obtiene la IP virtual del contenedor y se la comunica al agente controlador, el cual lleva un listado de todas los contenedores descubiertos.
 
 \begin{figure}[h]
     \centering
@@ -55,7 +55,7 @@ Este enfoque, implicaba modificar todas las posibles imágenes a usar con la apli
 
 \subsection{Segundo enfoque: Single Daemon y DNS Round Robin}
 
-Con una configuración de red entre servicios Docker configurada para operar con el algoritmo \gls{DNS} Round Robin, se consigue disponer de la lista de todas las direcciones IP Virtuales de los contenedores de un mismo servicio.\footnote{https://github.com/mtenrero/ATQ-Director}\newline
+Con una configuración de red entre servicios Docker configurada para operar con el algoritmo \acrshort{DNS} Round Robin, se consigue disponer de la lista de todas las direcciones IP Virtuales de los contenedores de un mismo servicio.\footnote{https://github.com/mtenrero/ATQ-Director}\newline
 
 Disponiendo de esta información, dejaría de ser necesario un descubrimiento de servicios como el expuesto en el anterior punto, dotando a la aplicación de la sencillez de uso deseada debido a que el usuario ya no tendría que modificar la imagen a utilizar.
 
@@ -66,7 +66,7 @@ Disponiendo de esta información, dejaría de ser necesario un descubrimiento de s
     \label{fig:new_arch}
 \end{figure}
 
-De esta manera, el middleware \textit{\textbf{Automation Test Queue}} se comunicaría directamente con el demonio de Docker a través del \gls{SDK} proporcionado por la comunidad y se encargaría de toda la orquestación necesaria para el despliegue automático de test de carga en el clúster.\newline
+De esta manera, el middleware \textit{\textbf{Automation Test Queue}} se comunicaría directamente con el demonio de Docker a través del \acrshort{SDK} proporcionado por la comunidad y se encargaría de toda la orquestación necesaria para el despliegue automático de test de carga en el clúster.\newline
 
 \begin{figure}[h]
     \centering
@@ -170,7 +170,7 @@ En el contexto del framework Automation Test Queue, un servicio es la definición
   \item \textbf{Tty} Parámetro que fuerza la consola interactiva en el servicio.
 \end{itemize}
 
-\subsubsection{Endpoint \gls{API}}
+\subsubsection{API Endpoint}
 
 Se ofrecen diferentes acciones descritas a continuación
 
@@ -199,9 +199,9 @@ El Middleware de Docker fue una de las primeras tareas realizadas durante el des
 
 Se comenzó el proyecto\footnote{https://github.com/mtenrero/AutomationTestQueue} con la primera implementación de Docker SDK\footnote{https://godoc.org/github.com/docker/docker/client}. Esta librería pronto quedó deprecada en favor de \textit{go-docker}, librería especificada en el párrafo anterior.\newline
 
-Como la librería aún estaba indicada como \textit{\gls{WIP}} , (\textit{WORK-IN-PROGRESS}), se decidió crear un nuevo repositorio por si fuese necesario consultar o volver a los ficheros fuente anteriores. Además, en el primer repositorio, se empezó a trabajar sobre el primer enfoque, basado en el auto registro de servicios.\newline \newline
+Como la librería aún estaba indicada como \textit{WORK-IN-PROGRESS}, se decidió crear un nuevo repositorio por si fuese necesario consultar o volver a los ficheros fuente anteriores. Además, en el primer repositorio, se empezó a trabajar sobre el primer enfoque, basado en el auto registro de servicios.\newline \newline
 
-Ofrece una interfaz para las tareas más sencillas ofrecidas por la \gls{API} de Docker como:
+Ofrece una interfaz para las tareas más sencillas ofrecidas por la \acrshort{API} de Docker como:
 
 \begin{itemize}
   \item \textbf{Gestión Volúmenes}
@@ -226,13 +226,13 @@ Este paquete también contiene la implementación de la orquestación propia del fr
 
 \subsection{Fase de orquestación}
 
-El proceso de orquestación está implementado en el paquete dockerMiddleware. El proceso parte de una definición de una tarea que se recibe vía \gls{API} \gls{HTTP}. Se comienza con el despliegue de un servicio global auxiliar, creado específicamente para el proyecto.
+El proceso de orquestación está implementado en el paquete dockerMiddleware. El proceso parte de una definición de una tarea que se recibe vía \acrshort{API} \acrshort{HTTP}. Se comienza con el despliegue de un servicio global auxiliar, creado específicamente para el proyecto.
 
 \subsubsection{Despliegue del descubridor de servicios}
 
-Este servicio contiene otra aplicación \textit{Go} muy básica creada específicamente para este proyecto. El servicio expone otra API \gls{REST} cuyo principal cometido, es devolver una lista con las direcciones IP encontradas para un determinado nombre de dominio. Para el correcto funcionamiento de este servicio es necesario que el servidor \gls{DNS} al que se dirige la petición responda con una lista completa de todos los registros \textbf{A} disponibles para el dominio consultado, y ésto, en el contexto de Docker, sólo es posible si el el servicio identificado por el nombre de dominio proporcionado está desplegado con una configuración de red de DNS Round-Robin. \newline
+Este servicio contiene otra aplicación \textit{Go} muy básica creada específicamente para este proyecto. El servicio expone otra API \acrshort{REST} cuyo principal cometido, es devolver una lista con las direcciones IP encontradas para un determinado nombre de dominio. Para el correcto funcionamiento de este servicio es necesario que el servidor \acrshort{DNS} al que se dirige la petición responda con una lista completa de todos los registros \textbf{A} disponibles para el dominio consultado, y ésto, en el contexto de Docker, sólo es posible si el el servicio identificado por el nombre de dominio proporcionado está desplegado con una configuración de red de DNS Round-Robin. \newline
 
-Se utiliza el paquete \textit{net} proporcionado por defecto por el lenguaje para realizar la resolución de nombres \gls{DNS}. El único endpoint que expone la API es el siguiente:
+Se utiliza el paquete \textit{net} proporcionado por defecto por el lenguaje para realizar la resolución de nombres \acrshort{DNS}. El único endpoint que expone la API es el siguiente:
 
 \begin{itemize}
 	\item \textit{GET /api/:hostname} Devuelve las IPs encontradas en el DNS para el \textit{hostname} indicado
@@ -241,8 +241,8 @@ Se utiliza el paquete \textit{net} proporcionado por defecto por el lenguaje par
 Las únicas respuestas posibles por esta API son: \newline
 
 \begin{itemize}
-	\item \textbf{\gls{HTTP} 200:OK} Lista con las direcciones encontradas.
-	\item \textbf{\gls{HTTP} 204: No Content} No se han resuelto nombres para el dominio especificado.
+	\item \textbf{\acrshort{HTTP} 200:OK} Lista con las direcciones encontradas.
+	\item \textbf{\acrshort{HTTP} 204: No Content} No se han resuelto nombres para el dominio especificado.
 \end{itemize}
 
 La aplicación se ha dockerizado y publicado tanto en GitHub\footnote{https://github.com/mtenrero/dnsrr-discovery-api} como en DockerHub\footnote{https://hub.docker.com/r/tenrero/dnsrr-discovery-api/} con una construcción automatizada, de tal manera, que con cada actualización sobre el repositorio, se construye automáticamente una nueva imagen y se publica en DockerHub para que esté disponible de forma automática para toda la comunidad.\newline
@@ -253,7 +253,7 @@ El carácter de este servicio es efímero, una vez que ha cumplido su cometido, al
 
 \subsubsection{Despliegue de Workers}
 
-Una vez que el servicio de descubrimiento de direcciones está correctamente desplegado, se comienza con el despliegue de los contenedores del servicio Worker. El despliegue se realiza con un servicio configurado con una red \gls{DNS} Round-Robin para que puedan ser descubiertas todas las direcciones de los contenedores, como se ha explicado con anterioridad, y con la cantidad de réplicas definida en la tarea especificada por el usuario.\newline
+Una vez que el servicio de descubrimiento de direcciones está correctamente desplegado, se comienza con el despliegue de los contenedores del servicio Worker. El despliegue se realiza con un servicio configurado con una red \acrshort{DNS} Round-Robin para que puedan ser descubiertas todas las direcciones de los contenedores, como se ha explicado con anterioridad, y con la cantidad de réplicas definida en la tarea especificada por el usuario.\newline
 
 Para asegurarse de que todos los nodos están disponibles, de manera genérica, mediante una espera activa, por medio de canales de \textit{Go}, se espera hasta que el descubrimiento de servicios devuelve una cantidad de direcciones igual a la cantidad de réplicas especificadas en la tarea por el usuario. Una vez que se ha detectado la cantidad correcta de contenedores, si se ha especificado en la tarea, se realizan comprobaciones de salud sobre todos los contenedores.\newline
 
@@ -321,7 +321,7 @@ Por otra parte, para el middleware, también se proporciona un fichero \textit{do
 
 Para el descubrimiento de servicios, como se ha avanzado en algún párrafo anterior, se ha desarrollado una mínima aplicación \textit{Go} que expone una API REST sencilla. Esta aplicación aprovecha el enrutado interno de los contenedores de los servicios docker que estén configurados con el algoritmo DNS RR.\newline
 
-Una vez que se ha realizado la consulta al servidor de nombres, se parsea la información y se devuelve en formato \textit{\gls{CSV}}, es decir, en valores separados por comas, ya que es el formato que JMeter requiere para especificar los nodos remotos y es muy fácilmente iterable por cualquier script para así poder emplear los datos con futuras herramientas.\newline
+Una vez que se ha realizado la consulta al servidor de nombres, se parsea la información y se devuelve en formato \textit{\acrshort{CSV}}, es decir, en valores separados por comas, ya que es el formato que JMeter requiere para especificar los nodos remotos y es muy fácilmente iterable por cualquier script para así poder emplear los datos con futuras herramientas.\newline
 
 El descubrimiento de servicios también es empleado en el algoritmo interno de orquestación del middleware, ya que éste para asegurarse de que los contenedores han sido correctamente inicializados, realiza peticiones asíncronamente con una espera activa hasta que se recibe la cantidad deseada de contenedores a ser desplegados. Y una vez que se puede acceder a dichos contenedores, si el usuario lo ha especificado, se procede a ejecutar el comando que se asegura de la disponibilidad de los contenedores desplegados a través de peticiones tcp o udp.
 
@@ -345,7 +345,7 @@ La limitación de TravisCI era muy importante ya que rompía la línea de Integraci
 
 No se optó desde un principio por Jenkins debido a la necesidad de disponer de una máquina con acceso a la red las 24 horas al día y la configuración del mismo.\newline
 
-El despliegue de las máquinas destinadas a la línea de integración continua se realizó sobre máquinas \gls{EC2} de Amazon Web Services, todas ellas bajo el mismo grupo de disponibilidad y con un servicio de IP elástica, permitiendo de esta manera que la dirección de acceso a Jenkins fuese estática. Además se incluyó un registro A en el \gls{DNS} de mi dominio particular para poder acceder con una dirección\footnote{http://atq.mtenrero.com:8080} mas fácil de recordar aún.
+El despliegue de las máquinas destinadas a la línea de integración continua se realizó sobre máquinas \acrshort{EC2} de Amazon Web Services, todas ellas bajo el mismo grupo de disponibilidad y con un servicio de IP elástica, permitiendo de esta manera que la dirección de acceso a Jenkins fuese estática. Además se incluyó un registro A en el \acrshort{DNS} de mi dominio particular para poder acceder con una dirección\footnote{http://atq.mtenrero.com:8080} mas fácil de recordar aún.
 
 Una parte vital para el correcto funcionamiento de la línea de integración continua fue configurar webhooks en GitHub para apuntar a la instancia de Jenkins además de habilitar la integración propia de Jenkins. Esto permitió que con cada evento en el repositorio, como \textit{commits} o \textit{pull-requests} se enviase una notificación a Jenkins para así poder ejecutar el job especificado y lanzar los tests unitarios sobre todas las ramas del proyecto para asegurar la regresión y un buen funcionamiento del mismo.\newline
 
@@ -358,7 +358,7 @@ Esto ha permitido describir el workflow de ejecución de manera totalmente agnóst
 \section{Pruebas}
 \label{sec:pruebas}
 
-Desde el comienzo del proyecto, la parte de las pruebas sobre la aplicación ha sido muy importante debido a la aplicación de las metodologías ágiles y \gls{TDD}, ademas del uso de la librería Goa con la que se ha realizado la interfaz \gls{REST} del Middleware.\newline
+Desde el comienzo del proyecto, la parte de las pruebas sobre la aplicación ha sido muy importante debido a la aplicación de las metodologías ágiles y \acrshort{TDD}, ademas del uso de la librería Goa con la que se ha realizado la interfaz \acrshort{REST} del Middleware.\newline
 
 Se ha organizado el proyecto siguiendo el estándar de \textit{Go}, es decir, dentro de cada paquete se han alojado sus tests unitarios. Los tests se diferencian del código en el nombre de fichero, ya que por convenio, los ficheros test en Go deben finalizar con la palabra \textit{\_test.go}.\newline
 
@@ -371,7 +371,7 @@ Tomando como ejemplo el paquete \textit{\textbf{persistence}} se han realizado u
   \item \textbf{filesystem\_test.go} Contiene los tests de almacenamiento de la base de datos clave/valor sobre el sistema de ficheros del sistema.
   \item \textbf{persistence\_test.go} Comprueba la escritura y la lectura básica utilizando la implementación de almacenamiento.
   \item \textbf{task\_test.go} Contiene los tests sobre todas las posibles operaciones relacionadas con la entidad Task del Middleware.
-  \item \textbf{timestamper\_test.go} Comprueba el funcionamiento correcto del generador de \gls{UUID}s basado en Timestamp.
+  \item \textbf{timestamper\_test.go} Comprueba el funcionamiento correcto del generador de \acrshort{UUID}s basado en Timestamp.
   \item \textbf{wrapper\_test.go} Tests relacionados sobre el wrapper que encapsula y simplifica el uso de la librería BuntDB.
 \end{itemize}
 
@@ -383,7 +383,7 @@ De esta manera, se ofrece a un futuro desarrollador, además de unas pruebas que 
 
 Para realizar un seguimiento sobre la cobertura de tests se ha utilizado la plataforma Coveralls.io\footnote{https://coveralls.io/github/mtenrero/ATQ-Director}. Permite visualizar gráficamente la evolución de la cobertura entre los diferentes commits realizados al control de versiones.\newline
 
-Para el correcto uso de esta plataforma ha sido necesario apoyarse en la librería \textit{Goveralls}\footnote{https://github.com/mattn/goveralls}. Esta librería envía los resultados de las pruebas a la plataforma Coveralls.io. Durante el cambio a Jenkins como sistema de Integración Continua, Goveralls no ofrecía soporte completo para este sistema de \gls{CI} y fue necesario introducir algunos cambios en el repositorio\footnote{https://github.com/mtenrero/goveralls} mediante un Pull Request\footnote{https://github.com/mattn/goveralls/pull/116} para mejorar la compatibilidad con Jenkins.\newline
+Para el correcto uso de esta plataforma ha sido necesario apoyarse en la librería \textit{Goveralls}\footnote{https://github.com/mattn/goveralls}. Esta librería envía los resultados de las pruebas a la plataforma Coveralls.io. Durante el cambio a Jenkins como sistema de Integración Continua, Goveralls no ofrecía soporte completo para este sistema de \acrshort{CI} y fue necesario introducir algunos cambios en el repositorio\footnote{https://github.com/mtenrero/goveralls} mediante un Pull Request\footnote{https://github.com/mattn/goveralls/pull/116} para mejorar la compatibilidad con Jenkins.\newline
 
 Se ha utilizado el paquete de testing nativo de \textit{Go} y el paquete \textit{Testify}\footnote{github.com/stretchr/testify/assert} que proporciona una serie de funciones y utilidades para simplificar el proceso de testeo, como comparaciones, expected conditions, etc...
 

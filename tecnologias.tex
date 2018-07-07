@@ -25,7 +25,7 @@ Esta distribución de ficheros evita al compilador de \textit{Go} tener que busca
 
 Goa\footnote{https://goa.design} es un framework completo para construir microservicios en Go que invierte la forma de construir APIs web completamente. Posee generación automática de código y documentación. \newline
 
-Es un framework enfocado al diseño de la \gls{API} en primer lugar, y es lo que hace a este framework único. Posee su propio lenguaje \gls{DSL} (lenguaje descriptivo) en el que antes de codificar, obliga al programador a pensar en el diseño de la \gls{API}, ya que esta debe ser definida en un primer lugar. Permite definir desde el endpoint, el contenido que consumirá y los parámetros que recibirá.\newline
+Es un framework enfocado al diseño de la \acrshort{API} en primer lugar, y es lo que hace a este framework único. Posee su propio lenguaje \acrshort{DSL} (lenguaje descriptivo) en el que antes de codificar, obliga al programador a pensar en el diseño de la \acrshort{API}, ya que esta debe ser definida en un primer lugar. Permite definir desde el endpoint, el contenido que consumirá y los parámetros que recibirá.\newline
 
 Dispone de un comando generador, \textit{goagen}, que produce todo el código necesario a partir de la descripción proporcionada en los ficheros de definición. No está completamente integrado con \textit{dep} y para el correcto funcionamiento del comando \textit{goagen} se requiere que no exista la carpeta \textit{vendor}.
 
@@ -39,7 +39,7 @@ Domain Name System es un sistema de nombrado de redes IP que se utiliza para res
 
 \subsection{DNS Round-Robin}
 
-\gls{DNS} Round-Robin es un algoritmo de selección de IP, en el que con cada petición que realiza el usuario, se obtiene una lista completa de todas las direcciones IP registradas en el servidor de nombres ordenada de tal forma que nunca recibe la misma dirección, realizando, de esta manera, realiza labores de balanceador de carga.
+\acrshort{DNS} Round-Robin es un algoritmo de selección de IP, en el que con cada petición que realiza el usuario, se obtiene una lista completa de todas las direcciones IP registradas en el servidor de nombres ordenada de tal forma que nunca recibe la misma dirección, realizando, de esta manera, realiza labores de balanceador de carga.
 
 Docker implementa este algoritmo de forma alternativa en su DNS interno, y el desarrollador puede elegir si desea operar con DNS Round Robin o con \textit{Routing Mesh}, balanceo de carga interno, donde el nombre es resuelto con una única IP Virtual de manera no determinista.\newline
 
@@ -109,7 +109,7 @@ El lanzamiento del nodo Maestro requiere que se especifique la lista de los nodo
 
 \section{ElasticSearch}
 
-ElasticSearch forma parte del Stack \gls{ELK} (\textit{ElasticSearch}, \textit{Logstash}, \textit{Kibana}) y es una base de datos y motor de búsqueda distribuido y enfocado a la alta disponibilidad. Está desarrollado en Java bajo una licencia open source y basado en Lucene \cite{divya2013elasticsearch}, una libreria open source de búsqueda de texto completo.
+ElasticSearch forma parte del Stack \acrshort{ELK} (\textit{ElasticSearch}, \textit{Logstash}, \textit{Kibana}) y es una base de datos y motor de búsqueda distribuido y enfocado a la alta disponibilidad. Está desarrollado en Java bajo una licencia open source y basado en Lucene \cite{divya2013elasticsearch}, una libreria open source de búsqueda de texto completo.
 
 \section{Grafana}
 
@@ -129,9 +129,9 @@ Samba es el protocolo open source por defecto de Windows que comparte directorio
 
 GlusterFS\footnote{http://gluster.org} es un sistema de ficheros distribuido open source a través de la red que puede replicar los contenidos entre los nodos que lo tengan configurado. Las características principales de Gluster son las comunes a cualquier sistema distribuido, tolerancia a fallos y alta escalabilidad \cite{glusterOpenStackDeployment}.
 
-\section{\gls{AWS}: Amazon Web Services}
+\section{Amazon Web Services}
 
-Amazon Web Services es una solución Platform-as-a-Service (\gls{PAAS}) que ofrece diversos productos, entre ellos:
+Amazon Web Services es una solución Platform-as-a-Service (\acrshort{PAAS}) que ofrece diversos productos, entre ellos:
 
 \begin{itemize}
   \item \textbf{EC2:} Recursos de cómputo bajo demanda. Permitiendo desplegar máquinas virtuales en pocos minutos con la imagen de sistema deseada, ya sea Windows o Linux.

@@ -38,10 +38,11 @@
 \usepackage{dirtree} %% Tree de ficheros
 \usepackage{pdfpages}
 
-
-\usepackage{glossaries}
+\usepackage[acronym]{glossaries}
 \makeglossaries
 
+
+\input{acrnonimos.tex}
 
 
 \newcommand\YAMLcolonstyle{\color{red}\mdseries}
@@ -133,7 +134,7 @@ DESPLIEGUE ELÁSTICO DE TESTS DE RENDIMIENTO
 
 \large
 Autor : Marcos Tenrero Morán \\
-Tutor : Francisco Gortázar
+Tutor : Francisco de Asis Gortázar Bellas
 \end{center}
 \end{titlepage}
 
@@ -148,7 +149,7 @@ Tutor : Francisco Gortázar
 \pagenumbering{Roman} % para comenzar la numeracion de paginas en numeros romanos
 \begin{flushright}
 \textit{Dedicado a \\
-mis padres, a mi chica, Bárbara \\
+mis padres, a mi hermana y a mi chica, Bárbara \\
 y a los dos más peludos de la casa, Maya y Tasser}
 \end{flushright}
 
@@ -269,10 +270,9 @@ A todos, gracias.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \appendix
 
-\input{acrnonimos.tex}
 \cleardoublepage
 %Print the glossary
-\printglossaries
+\printglossary[type=\acronymtype]
 
 \cleardoublepage
 \chapter{Manual de usuario}

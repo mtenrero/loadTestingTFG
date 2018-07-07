@@ -2,7 +2,7 @@
 \chapter{Conclusiones y trabajos futuros}
 \label{chap:conclusiones-trabajos-futuros}
 
-La utilización del middleware \gls{ATQ} reduce drásticamente el tiempo de setup de la infraestructura necesaria para ejecutar tests de manera elástica. Ya que con unos sencillos comandos es posible desplegarla de una manera rápida, transparente y eficiente.\newline
+La utilización del middleware \acrshort{ATQ} reduce drásticamente el tiempo de setup de la infraestructura necesaria para ejecutar tests de manera elástica. Ya que con unos sencillos comandos es posible desplegarla de una manera rápida, transparente y eficiente.\newline
 
 En la siguiente sección se describe un posible uso real del middleware junto con algunas herramientas de apoyo que sirven de ayuda para conocer la salud de una aplicación web basándose en la cantidad de conexiones concurrentes a la misma. Y es aquí donde ATQ toma protagonismo. Porque cuando se tiene una determinada carga de trabajo en una aplicación en producción con un gran número de usuarios, es complicado conseguir reproducir o superar esta carga de trabajo en un entorno de pruebas, debido a los requisitos de hardware necesario.\newline
 
@@ -12,7 +12,7 @@ Debido a las especificaciones técnicas de Docker Swarm, con una limitada configu
 
 Para visualizar de forma más clara los resultados de los tests de carga, se puede configurar un \textit{Backend Listener} en el \textit{Test Plan} de Apache JMeter para que retransmita los resultados a un sistema externo como \textit{ElasticSearch} o \textit{InfluxDB}\footnote{https://www.influxdata.com}.\newline
 
-Yo he decidido emplear ElasticSearch, y para ello, hay que añadir un plugin\footnote{https://github.com/delirius325/jmeter-elasticsearch-backend-listener} de JMeter al directorio \textit{./lib/ext} de la instalación de JMeter. (La imagen de JMeter creada para el uso con \gls{ATQ} ya lo incluye)\newline
+Yo he decidido emplear ElasticSearch, y para ello, hay que añadir un plugin\footnote{https://github.com/delirius325/jmeter-elasticsearch-backend-listener} de JMeter al directorio \textit{./lib/ext} de la instalación de JMeter. (La imagen de JMeter creada para el uso con \acrshort{ATQ} ya lo incluye)\newline
 
 Además, también es necesario configurar una serie de parámetros, como la url donde se expone la API de ElasticSearch o el índice donde guardar los resultados.\newline
 
@@ -50,13 +50,13 @@ Para visualizarlo de una manera más cómoda, se puede conectar con un panel visua
 
 \subsection{Sistemas Operativos Windows}
 
-La integración completa con Sistemas Operativos Windows aún no es posible, ya que las imágenes de \gls{ATQ} para un despliegue basado en stacks de Swarm y del descubrimiento de servicios, están basados en imágenes linux, como CentOS 7\footnote{https://centos.org} o Alpine Linux\footnote{https://alpinelinux.org}. Esto implica que no se pueda desplegar \gls{ATQ} en sistemas Windows que utilicen contenedores Windows nativos, aunque sí es posible desplegar \gls{ATQ} sobre sistemas Windows que operen con contenedores Linux.\newline
+La integración completa con Sistemas Operativos Windows aún no es posible, ya que las imágenes de \acrshort{ATQ} para un despliegue basado en stacks de Swarm y del descubrimiento de servicios, están basados en imágenes linux, como CentOS 7\footnote{https://centos.org} o Alpine Linux\footnote{https://alpinelinux.org}. Esto implica que no se pueda desplegar \acrshort{ATQ} en sistemas Windows que utilicen contenedores Windows nativos, aunque sí es posible desplegar \acrshort{ATQ} sobre sistemas Windows que operen con contenedores Linux.\newline
 
-Para una integración completa, sería necesario crear imágenes específicas con los binarios de \gls{ATQ} y del descubridor de servicios con una imagen de contenedor basada en Windows como \textit{nanoserver}\footnote{https://hub.docker.com/r/microsoft/nanoserver/}.
+Para una integración completa, sería necesario crear imágenes específicas con los binarios de \acrshort{ATQ} y del descubridor de servicios con una imagen de contenedor basada en Windows como \textit{nanoserver}\footnote{https://hub.docker.com/r/microsoft/nanoserver/}.
 
 \subsection{Integración con Jenkins}
 
-Por otro lado, se podría ampliar el proyecto creando un plugin específico para Jenkins para poder así definir de una manera declarativa sencilla los parámetros para una ejecución elástica de test de carga usando el middleware \gls{ATQ}.
+Por otro lado, se podría ampliar el proyecto creando un plugin específico para Jenkins para poder así definir de una manera declarativa sencilla los parámetros para una ejecución elástica de test de carga usando el middleware \acrshort{ATQ}.
 
 \subsection{Sistema de ficheros distribuidos interno}
 
@@ -68,9 +68,9 @@ De esta manera se reducirían prácticamente a cero los requisitos para poder util
 
 \subsection{Solución comercial}
 
-Una solución empresarial sería posible creando un portal web con una serie de características como autenticación con Kerberos o \gls{LDAP} y multi-tenancy de usuarios para poder así ofrecer una solución \gls{SAAS} de la herramienta y ofrecerla a través de algún tipo de suscripción.\newline
+Una solución empresarial sería posible creando un portal web con una serie de características como autenticación con Kerberos o \acrshort{LDAP} y multi-tenancy de usuarios para poder así ofrecer una solución \acrshort{SAAS} de la herramienta y ofrecerla a través de algún tipo de suscripción.\newline
 
-Para ello sería necesario desplegar \gls{ATQ} sobre una infraestructura cloud como Amazon Web Services\footnote{https://aws.amazon.com}, Azure\footnote{https://azure.microsoft.com} o Google Cloud Platform\footnote{https://cloud.google.com} usando el orquestador Kubernetes\footnote{https://kubernetes.io} con el objetivo de poder escalar de una manera sencilla la infraestructura en base a la demanda de los usuarios.\clearpage
+Para ello sería necesario desplegar \acrshort{ATQ} sobre una infraestructura cloud como Amazon Web Services\footnote{https://aws.amazon.com}, Azure\footnote{https://azure.microsoft.com} o Google Cloud Platform\footnote{https://cloud.google.com} usando el orquestador Kubernetes\footnote{https://kubernetes.io} con el objetivo de poder escalar de una manera sencilla la infraestructura en base a la demanda de los usuarios.\clearpage
 
 Una posible arquitectura sería la siguiente:
 
